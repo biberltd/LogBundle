@@ -1,8 +1,8 @@
 {
     "name": "biberltd/logbundle",
     "type": "symfony-bundle",
-    "description": "Handles PHP related logs. It can save all actions to database",
-    "keywords": ["php logs", "action logs"],
+    "description": "",
+    "keywords": [],
     "homepage": "http://github.com/biberltd/LogBundle",
     "license": "MIT",
 	"version": "master",
@@ -24,5 +24,5 @@
 
     },
     "minimum-stability": "dev",
-    "target-dir": "BiberLtd/Bundles/ExceptionBundle/"
+    "target-dir": "BiberLtd/LogBundle"
 }
