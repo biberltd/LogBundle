@@ -1,10 +1,11 @@
 {
-    "name": "biberltd/exception-bundle",
+    "name": "biberltd/logbundle",
     "type": "symfony-bundle",
     "description": "Handles PHP related logs. It can save all actions to database",
     "keywords": ["php logs", "action logs"],
     "homepage": "http://github.com/biberltd/LogBundle",
     "license": "MIT",
+	"version": "master",
     "authors": [
         {
             "name": "Can Berkol",
@@ -17,7 +18,6 @@
     ],
     "require": {
         "php": ">=5.3.2",
-		"biberltd/exception-bundle": "master"
     },
     "autoload": {
         "psr-0": { "BiberLtd\\LogBundle": "" }
