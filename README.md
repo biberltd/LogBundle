@@ -1,4 +1,4 @@
-LogBundle
-=========
+Log Bundle
+==============
 
-This bundle keeps users action on database
+Tracks system access information.

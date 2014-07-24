@@ -1,0 +1,4 @@
+services:
+    logbundle.model:
+          class:        BiberLtd\Core\Bundles\LogBundle\Services\LogModel
+          arguments:    [@kernel, "default", "doctrine"]
