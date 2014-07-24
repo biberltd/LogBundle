@@ -27,8 +27,5 @@
         "psr-0": { "BiberLtd\\Bundles\\LogBundle\\": "" }
     },
     "target-dir": "biberltd/core/BiberLtd/Core/Bundles/LogBundle",
-    "minimum-stability": "dev",
-    "extra": {
-    }
+    "minimum-stability": "dev"
 }
-~
