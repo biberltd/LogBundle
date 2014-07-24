@@ -1,0 +1,7 @@
+[ssh-test]
+enabled = true
+filter = sshd
+action = iptables[name=SSH, port=ssh, protocol=tcp]
+         gnome-notify[name=Test,title=<Test Title>, content=<Test Content>]
+logpath = /var/log/secure
+maxretry = 5
