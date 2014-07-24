@@ -1,7 +1,34 @@
-[ssh-test]
-enabled = true
-filter = sshd
-action = iptables[name=SSH, port=ssh, protocol=tcp]
-         gnome-notify[name=Test,title=<Test Title>, content=<Test Content>]
-logpath = /var/log/secure
-maxretry = 5
+{
+    "name": "biberltd/logbundle",
+    "type": "symfony-bundle",
+    "description": "BiberLtd LogBundle",
+    "keywords": [],
+    "homepage": "http://biberltd.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Can Berkol",
+            "email": "can.berkol@biberltd.com"
+        },
+        {
+            "name": "Said İmamoglu",
+            "email": "said.imamoglu@biberltd.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/filesystem": "~2.3"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-0": { "BiberLtd\\Bundles\\LogBundle\\": "" }
+    },
+    "target-dir": "biberltd/core/BiberLtd/Core/Bundles/LogBundle",
+    "minimum-stability": "dev",
+    "extra": {
+    }
+}
+~
