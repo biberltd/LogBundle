@@ -15,8 +15,15 @@
             "email": "said.imamoglu@biberltd.com"
         }
     ],
+	"repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/biberltd/logbundle"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
+		"biberltd/logbundle": "~1.0",
         "symfony/filesystem": "~2.3"
     },
     "require-dev": {
