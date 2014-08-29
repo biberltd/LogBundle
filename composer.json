@@ -17,6 +17,7 @@
         }
     ],
     "require": {
+    	"symfony/framework-standard-edition":" >=2.3",
         "symfony/framework-bundle": ">=2.3",
         "symfony/symfony": ">=2.3",
         "biberltd/corebundle": "dev-master"
