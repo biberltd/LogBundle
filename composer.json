@@ -1,0 +1,36 @@
+{
+    "name": "biberltd/logbundle",
+    "type": "symfony-bundle",
+    "description": "",
+    "keywords": [],
+    "homepage": "http://github.com/biberltd/LogBundle",
+    "license": "MIT",
+	"version": "master",
+    "authors": [
+        {
+            "name": "Can Berkol",
+            "email": "can.berkol@biberltd.com"
+        },
+		{
+            "name": "Said İmamoğlu",
+            "email": "said.imamoglu@biberltd.com"
+        }
+    ],
+    "require": {
+    	"symfony/framework-standard-edition":" >=2.3",
+        "symfony/framework-bundle": ">=2.3",
+        "symfony/symfony": ">=2.3",
+        "biberltd/corebundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "BiberLtd\\LogBundle": "" }
+
+    },
+    "minimum-stability": "dev",
+    "target-dir": "BiberLtd/LogBundle",
+    "extra" : {
+	"branch-alias" : {
+		"dev-master" : "3.0.x-dev"
+		}
+	}
+}
