@@ -181,7 +181,7 @@
     </association>
     <comment caption="LogBundle Pricing" description="action: 185 TL&#10;action_localization: 150 TL&#10;log: 275 TL&#10;session: 250 TL&#10;&#10;toplam: 860 TL" uuid="41622fe1-3b87-42c5-abe5-5d6f3e3173ab"/>
     <orm-attributes>
-      <attribute name="namespace">BiberLtd\Core\Bundles\LogBundle\Entity</attribute>
+      <attribute name="namespace">BiberLtd\Bundle\LogBundle\Entity</attribute>
       <attribute name="filename-format">entity-name-only</attribute>
       <attribute name="file-suffix">without-suffix</attribute>
     </orm-attributes>

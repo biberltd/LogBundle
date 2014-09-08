@@ -1,11 +1,11 @@
 <?php
 
-namespace BiberLtd\Core\Bundles\LogBundle;
+namespace BiberLtd\Bundle\LogBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class BiberLtdCoreBundlesLogBundle extends Bundle
+class BiberLtdBundleLogBundle extends Bundle
 {
 
 }

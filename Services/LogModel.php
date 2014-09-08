@@ -39,21 +39,21 @@
  * Do not forget to implement SITE, ORDER, AND PAGINATION RELATED FUNCTIONALITY
  *
  */
-namespace BiberLtd\Core\Bundles\LogBundle\Services;
+namespace BiberLtd\Bundle\LogBundle\Services;
 /** Extends CoreModel */
 use BiberLtd\Core\CoreModel;
 
 /** Entities to be used */
-use BiberLtd\Core\Bundles\LogBundle\Entity as BundleEntity;
-use BiberLtd\Core\Bundles\FileManagementBundle\Entity as FileBundleEntity;
-use BiberLtd\Core\Bundles\MultiLanguageSupportBundle\Entity as MLSEntity;
-use BiberLtd\Core\Bundles\SiteManagementBundle\Entity as SiteManagementEntity;
+use BiberLtd\Bundle\LogBundle\Entity as BundleEntity;
+use BiberLtd\Bundle\FileManagementBundle\Entity as FileBundleEntity;
+use BiberLtd\Bundle\MultiLanguageSupportBundle\Entity as MLSEntity;
+use BiberLtd\Bundle\SiteManagementBundle\Entity as SiteManagementEntity;
 
 /** Helper Models */
-use BiberLtd\Core\Bundles\FileManagementBundle\Services as FMMService;
-use BiberLtd\Core\Bundles\MultiLanguageSupportBundle\Services as MLSService;
-use BiberLtd\Core\Bundles\SiteManagementBundle\Services as SMMService;
-use BiberLtd\Core\Bundles\MemberManagementBundle\Services as MMMService;
+use BiberLtd\Bundle\FileManagementBundle\Services as FMMService;
+use BiberLtd\Bundle\MultiLanguageSupportBundle\Services as MLSService;
+use BiberLtd\Bundle\SiteManagementBundle\Services as SMMService;
+use BiberLtd\Bundle\MemberManagementBundle\Services as MMMService;
 
 /** Core Service*/
 use BiberLtd\Core\Services as CoreServices;

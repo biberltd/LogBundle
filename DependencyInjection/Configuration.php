@@ -1,6 +1,6 @@
 <?php
 
-namespace BiberLtd\Core\Bundles\LogBundle\DependencyInjection;
+namespace BiberLtd\Bundle\LogBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

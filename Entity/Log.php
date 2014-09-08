@@ -1,5 +1,5 @@
 <?php
-namespace BiberLtd\Core\Bundles\LogBundle\Entity;
+namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
  * @name        log
  * @package		BiberLtd\Core\AccessManagementBundle
@@ -68,19 +68,19 @@ class Log extends CoreEntity
     public $date_action;
 
     /** 
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\LogBundle\Entity\Action", inversedBy="logs")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Action", inversedBy="logs")
      * @ORM\JoinColumn(name="action", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $action;
 
     /** 
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\LogBundle\Entity\Session", inversedBy="logs")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Session", inversedBy="logs")
      * @ORM\JoinColumn(name="session", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $session;
 
     /** 
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\SiteManagementBundle\Entity\Site")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\SiteManagementBundle\Entity\Site")
      * @ORM\JoinColumn(name="site", referencedColumnName="id", onDelete="CASCADE")
      */
     private $site;

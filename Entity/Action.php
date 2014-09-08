@@ -1,8 +1,8 @@
 <?php
-namespace BiberLtd\Core\Bundles\LogBundle\Entity;
+namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
  * @name        action
- * @package		BiberLtd\Core\Bundles\LogBundle
+ * @package		BiberLtd\Bundle\LogBundle
  *
  * @author		Murat Ünal
  * @version     1.0.2
@@ -67,17 +67,17 @@ class Action extends CoreLocalizableEntity
     private $count_logs;
 
     /** 
-     * @ORM\OneToMany(targetEntity="BiberLtd\Core\Bundles\LogBundle\Entity\ActionLocalization", mappedBy="action")
+     * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\ActionLocalization", mappedBy="action")
      */
     protected $localizations;
 
     /** 
-     * @ORM\OneToMany(targetEntity="BiberLtd\Core\Bundles\LogBundle\Entity\Log", mappedBy="action")
+     * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Log", mappedBy="action")
      */
     private $logs;
 
     /** 
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\SiteManagementBundle\Entity\Site")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\SiteManagementBundle\Entity\Site")
      * @ORM\JoinColumn(name="site", referencedColumnName="id", onDelete="CASCADE")
      */
     private $site;

@@ -18,7 +18,7 @@
  *
  */
 
-namespace BiberLtd\Core\Bundles\LogManagementBundle\Controller;
+namespace BiberLtd\Bundle\LogManagementBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\HttpKernel\Exception,

@@ -1,8 +1,8 @@
 <?php
-namespace BiberLtd\Core\Bundles\LogBundle\Entity;
+namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
  * @name        ActionLocalization
- * @package		BiberLtd\Core\Bundles\LogBundle
+ * @package		BiberLtd\Bundle\LogBundle
  *
  * @author		Murat Ünal
  * @version     1.0.0
@@ -46,14 +46,14 @@ class ActionLocalization extends CoreEntity
     private $description;
 
     /** 
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\LogBundle\Entity\Action", inversedBy="localizations")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Action", inversedBy="localizations")
      * @ORM\JoinColumn(name="action", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @ORM\Id
      */
     private $action;
 
     /** 
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\MultiLanguageSupportBundle\Entity\Language")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language")
      * @ORM\JoinColumn(name="language", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @ORM\Id
      */
