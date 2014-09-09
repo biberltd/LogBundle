@@ -1,7 +1,7 @@
 <?php
 /**
  * @name        InvalidActionException
- * @package		BiberLtd\Core\Bundles\LogBundle
+ * @package		BiberLtd\Bundle\LogBundle
  *
  * @author		Can Berkol
  * @version     1.0.0
@@ -13,9 +13,9 @@
  * @description Exception to handle cURL connection problems.
  *
  */
-namespace BiberLtd\Core\Bundles\LogBundle\Exceptions;
+namespace BiberLtd\Bundle\LogBundle\Exceptions;
 
-use BiberLtd\Bundles\ExceptionBundle\Services;
+use BiberLtd\Bundle\ExceptionBundle\Services;
 
 class LoginException extends Services\ExceptionAdapter {
     public function __construct($kernel, $action = "", $code = 997000, Exception $previous = null) {

@@ -1,8 +1,8 @@
 <?php
-namespace BiberLtd\Core\Bundles\LogBundle\Entity;
+namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
  * @name        session
- * @package		BiberLtd\Core\AccessManagementBundle
+ * @package		BiberLtd\Bundle\CoreBundle\AccessManagementBundle
  *
  * @author		Murat Ünal
  * @version     1.0.2
@@ -15,7 +15,7 @@ namespace BiberLtd\Core\Bundles\LogBundle\Entity;
  *
  */
 use Doctrine\ORM\Mapping AS ORM;
-use BiberLtd\Core\CoreEntity;
+use BiberLtd\Bundle\CoreBundle\CoreEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(
@@ -75,19 +75,19 @@ class Session extends CoreEntity
     private $session_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\MemberManagementBundle\Entity\Member")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MemberManagementBundle\Entity\Member")
      * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false)
      */
     private $member;
 
     /**
-     * @ORM\OneToMany(targetEntity="BiberLtd\Core\Bundles\LogBundle\Entity\Log", mappedBy="session")
+     * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Log", mappedBy="session")
      */
     private $logs;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\SiteManagementBundle\Entity\Site")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\SiteManagementBundle\Entity\Site")
      * @ORM\JoinColumn(name="site", referencedColumnName="id", onDelete="CASCADE")
      */
     private $site;
