@@ -1,7 +1,4 @@
-parameters:
-#    biber_ltd_log.example.class: BiberLtd\Bundle\LogBundle\Example
-
 services:
-#    biber_ltd_log.example:
-#        class: %biber_ltd_log.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    logbundle.model:
+          class:        BiberLtd\Bundle\LogBundle\Services\LogModel
+          arguments:    [@kernel, "default", "doctrine"]
