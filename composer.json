@@ -1,5 +1,5 @@
 {
-    "name": "biberltd/logbundle",
+    "name": "biberltd/log-bundle",
     "type": "symfony-bundle",
     "description": "",
     "keywords": [],
@@ -17,10 +17,12 @@
         }
     ],
     "require": {
-        "biberltd/corebundle": "dev-master"
+        "biberltd/core-bundle" : "self.version",
+	"biberltd/site-management-bundle" : "self.version",
+	"biberltd/multilanguage-support-bundle" : "self.version"
     },
     "autoload": {
-        "psr-0": { "BiberLtd\\LogBundle": "" }
+        "psr-0": { "BiberLtd\\Bundle\\LogBundle": "" }
 
     },
     "minimum-stability": "dev",
@@ -29,5 +31,5 @@
 		"dev-master" : "3.0.x-dev"
 		}
 	},
-    "target-dir": "BiberLtd/LogBundle"
+    "target-dir": "BiberLtd/Bundle/LogBundle"
 }
