@@ -208,7 +208,7 @@ class LogModel extends CoreModel {
         }
         /** If COLLECTION is ENTITYs then USE ENTITY MANAGER */
         if($by == 'entity'){
-            $sub_response = $this->delete_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Action');
+            $sub_response = $this->delete_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Action');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
@@ -306,7 +306,7 @@ class LogModel extends CoreModel {
         }
         /** If COLLECTION is ENTITYs then USE ENTITY MANAGER */
         if($by == 'entity'){
-            $sub_response = $this->delete_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Log');
+            $sub_response = $this->delete_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Log');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
@@ -404,7 +404,7 @@ class LogModel extends CoreModel {
         }
         /** If COLLECTION is ENTITYs then USE ENTITY MANAGER */
         if($by == 'entity'){
-            $sub_response = $this->delete_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Session');
+            $sub_response = $this->delete_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Session');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
@@ -797,7 +797,7 @@ class LogModel extends CoreModel {
             return $this->createException('InvalidParameterException', 'Array', 'err.invalid.parameter.collection');
         }
         if($by == 'entity'){
-            $sub_response = $this->insert_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Action');
+            $sub_response = $this->insert_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Action');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
@@ -860,7 +860,7 @@ class LogModel extends CoreModel {
                 /** Free up some memory */
                 unset($site, $response, $SMModel);
             }
-            $this->insert_entities(array($entity), '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Action');
+            $this->insert_entities(array($entity), '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Action');
 
             $entity_localizations = array();
             foreach($l_collection as $localization){
@@ -897,7 +897,7 @@ class LogModel extends CoreModel {
                     }
                 }
             }
-            $this->insert_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\ActionLocalization');
+            $this->insert_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\ActionLocalization');
             /**
              * ????? DO we really need this?
              *
@@ -967,7 +967,7 @@ class LogModel extends CoreModel {
             return $this->createException('InvalidParameterException', 'Array', 'err.invalid.parameter.collection');
         }
         if($by == 'entity'){
-            $sub_response = $this->insert_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Log');
+            $sub_response = $this->insert_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Log');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
@@ -1060,7 +1060,7 @@ class LogModel extends CoreModel {
             }
 
             $entity->setSession($session);
-            $this->insert_entities(array($entity), '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Log');
+            $this->insert_entities(array($entity), '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Log');
 
             /**
              * ????? DO we really need this?
@@ -1790,7 +1790,7 @@ class LogModel extends CoreModel {
             return $this->createException('InvalidParameterException', implode(',', $by_opts), 'err.invalid.parameter.by');
         }
         if($by == 'entity'){
-            $sub_response = $this->update_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Action');
+            $sub_response = $this->update_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Action');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
@@ -1984,7 +1984,7 @@ class LogModel extends CoreModel {
             return $this->createException('InvalidParameterException', implode(',', $by_opts), 'err.invalid.parameter.by');
         }
         if($by == 'entity'){
-            $sub_response = $this->update_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Log');
+            $sub_response = $this->update_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Log');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
@@ -2165,7 +2165,7 @@ class LogModel extends CoreModel {
             return $this->createException('InvalidParameterException', implode(',', $by_opts), 'err.invalid.parameter.by');
         }
         if($by == 'entity'){
-            $sub_response = $this->update_entities($collection, '\\BiberLtd\\Core\\Bundles\\LogBundle\\Entity\\Session');
+            $sub_response = $this->update_entities($collection, '\\BiberLtd\\Bundle\\LogBundle\\Entity\\Session');
             /**
              * If there are items that cannot be deleted in the collection then $sub_Response['process']
              * will be equal to continue and we need to continue process; otherwise we can return response.
