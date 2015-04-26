@@ -1,3 +1,1 @@
-biberltd_core_access_management:
-    pattern:  /log
-    defaults: { _controller: BiberLtdCoreBundlesLogBundle:Default:index }
+# NO ROUTING YET IMPLEMENTED

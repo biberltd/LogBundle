@@ -1,4 +1,8 @@
 services:
+    sessionlogger.listener:
+        class:        BiberLtd\Bundle\LogBundle\Listeners\SessionLogger
+        tags:         [{name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: -155}]
+        arguments:    [@service_container, @kernel, ["default", "doctrine"]]
     logbundle.model:
           class:        BiberLtd\Bundle\LogBundle\Services\LogModel
           arguments:    [@kernel, "default", "doctrine"]
