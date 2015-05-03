@@ -457,6 +457,69 @@ class LogModel extends CoreModel {
     public function insertAction($action){
         return $this->insertActions(array($action));
     }
+	/**
+	 * @name 			insertActionLocalizations()
+	 *
+	 * @since			1.0.4
+	 * @version         1.0.4
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+     *
+     * @param           array           $collection      Collection of Site entities or array of site detais array.
+     *
+     * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+     */
+	public function insertActionLocalizations($collection) {
+		$timeStamp = time();
+		if (!is_array($collection)) {
+			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
+		}
+		$countInserts = 0;
+		$insertedItems = array();
+		foreach($collection as $data){
+			if($data instanceof BundleEntity\ActionLocalization){
+				$entity = $data;
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+			else if(is_object($data)){
+				$entity = new BundleEntity\ActionLocalization();
+				foreach($data as $column => $value){
+					$set = 'set'.$this->translateColumnName($column);
+					switch($column){
+						case 'language':
+							$lModel = $this->kernel->getContainer()->get('multilanguagesupport.model');
+							$response = $lModel->getLanguage($value);
+							if(!$response->error->exists){
+								$entity->$set($response->result->set);
+							}
+							unset($response, $lModel);
+							break;
+						case 'action':
+							$response = $this->getAction($value);
+							if(!$response->error->exists){
+								$entity->$set($response->result->set);
+							}
+							unset($response, $lModel);
+							break;
+						default:
+							$entity->$set($value);
+							break;
+					}
+				}
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+		}
+		if($countInserts > 0){
+			$this->em->flush();
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
     /**
      * @name 			insertActions()
      *
@@ -1312,6 +1375,12 @@ class LogModel extends CoreModel {
 
 /**
  * Change Log
+ * **************************************
+ * v1.0.4                      03.05.1015
+ * Can Berkol
+ * **************************************
+ * FR :: insertActionLocalizations() added.
+ *
  * **************************************
  * v1.0.3                      02.05.1015
  * Can Berkol
