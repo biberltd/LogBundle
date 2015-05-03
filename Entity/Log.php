@@ -4,9 +4,10 @@ namespace BiberLtd\Bundle\LogBundle\Entity;
  * @name        log
  * @package		BiberLtd\Bundle\CoreBundle\AccessManagementBundle
  *
+ * @author		Can Berkol
  * @author		Murat Ünal
- * @version     1.0.1
- * @date        19.07.2013
+ * @version     1.0.2
+ * @date        02.05.2015
  *
  * @copyright   Biber Ltd. (http://www.biberltd.com)
  * @license     GPL v3.0
@@ -16,16 +17,17 @@ namespace BiberLtd\Bundle\LogBundle\Entity;
  */
 use Doctrine\ORM\Mapping AS ORM;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
-/** 
+/**
  * @ORM\Entity
  * @ORM\Table(
  *     name="log",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"},
  *     indexes={
- *         @ORM\Index(name="idx_n_log_session_action", columns={"session","action"}),
- *         @ORM\Index(name="idx_n_log_date_action", columns={"date_action"}),
- *         @ORM\Index(name="idx_n_log_site_session_action", columns={"session","action","site"})
- *     }
+ *         @ORM\Index(name="idxNLoggedActionsOfSession", columns={"session","action"}),
+ *         @ORM\Index(name="idxNLogDateAction", columns={"date_action"}),
+ *         @ORM\Index(name="idxNLoggedActionOfSessionInSite", columns={"session","action","site"})
+ *     },
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="idxULogId", columns={"id"})}
  * )
  */
 class Log extends CoreEntity
@@ -129,8 +131,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getAction ()
-     *                            Returns the value of action property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -143,10 +144,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                  setAgent ()
-     *                                 Sets the agent property.
-     *                                 Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setAgent ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -168,8 +167,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getAgent ()
-     *                           Returns the value of agent property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -182,10 +180,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                  setDateAction ()
-     *                                      Sets the date_action property.
-     *                                      Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setDateAction ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -207,8 +203,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getDateAction ()
-     *                                Returns the value of date_action property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -221,10 +216,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                  setDetails ()
-     *                                   Sets the details property.
-     *                                   Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setDetails ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -246,8 +239,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getDetails ()
-     *                             Returns the value of details property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -260,10 +252,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                 setIpV4()
-     *                            Sets the ip_v4 property.
-     *                            Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setIpV4()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -285,8 +275,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getIpV4()
-     *                      Returns the value of ip_v4 property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -299,10 +288,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                  setIpV6()
-     *                            Sets the ip_v6 property.
-     *                            Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setIpV6()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -324,8 +311,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getIpV6()
-     *                      Returns the value of ip_v6 property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -338,10 +324,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                  setSession ()
-     *                                   Sets the session property.
-     *                                   Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setSession ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -363,8 +347,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getSession ()
-     *                             Returns the value of session property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -377,10 +360,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                  setSite ()
-     *                                Sets the site property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setSite ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -402,8 +383,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getSite ()
-     *                          Returns the value of site property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -416,10 +396,8 @@ class Log extends CoreEntity
     }
 
     /**
-     * @name                  setUrl ()
-     *                               Sets the url property.
-     *                               Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setUrl ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -441,8 +419,7 @@ class Log extends CoreEntity
 
     /**
      * @name            getUrl ()
-     *                         Returns the value of url property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -457,11 +434,15 @@ class Log extends CoreEntity
 /**
  * Change Log:
  * **************************************
+ * v1.0.2                      02.05.2015
+ * Can Berkol
+ * **************************************
+ * CR :: ORM updates.
+ *
+ * **************************************
  * v1.0.1                      Murat Ünal
  * 19.07.2013
  * **************************************
- * A get_a()
- * A set_a()
  * A getAction()
  * A setAction()
  * A getAgent()
@@ -476,14 +457,10 @@ class Log extends CoreEntity
  * A setIpV4()
  * A getIpV6()
  * A setIpV6()
- * A get_s()
- * A set_s()
  * A getSession()
  * A setSession()
  * A getSite()
  * A setSite()
- * A get_sn()
- * A set_sn()
  * A getUrl()
  * A setUrl()
  *

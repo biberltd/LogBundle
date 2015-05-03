@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2015-04-27 15:53:17
+Date: 2015-05-02 18:00:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,10 +27,16 @@ CREATE TABLE `action` (
   `type` char(1) COLLATE utf8_turkish_ci NOT NULL COMMENT 'Type of action. v:visitor, a:admin, u:user',
   `count_logs` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of actions logged.',
   `site` int(10) unsigned DEFAULT NULL COMMENT 'Site that this action is associated with.',
+  `date_removed` datetime DEFAULT NULL COMMENT 'Date when the entry is marked as removed.',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_u_action_id` (`id`) USING BTREE,
-  UNIQUE KEY `idx_u_action_code` (`code`) USING BTREE,
-  KEY `idx_f_action_site` (`site`) USING BTREE
+  UNIQUE KEY `idxUActionId` (`id`) USING BTREE,
+  UNIQUE KEY `idxUActionCode` (`code`) USING BTREE,
+  KEY `idxNActionDateAdded` (`date_added`),
+  KEY `idxNActionType` (`type`),
+  KEY `idxNActionDateUpdated` (`date_updated`),
+  KEY `idxNActionDateRemoved` (`date_removed`),
+  KEY `idxFSiteOfAction` (`site`) USING BTREE,
+  CONSTRAINT `idxFSiteOfAction` FOREIGN KEY (`site`) REFERENCES `site` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
@@ -44,13 +50,13 @@ CREATE TABLE `action_localization` (
   `url_key` varchar(255) COLLATE utf8_turkish_ci NOT NULL COMMENT 'Localized URL key of action.',
   `description` text COLLATE utf8_turkish_ci COMMENT 'Localized description of action.',
   PRIMARY KEY (`action`,`language`),
-  UNIQUE KEY `idx_u_action_localization` (`action`,`language`) USING BTREE,
-  UNIQUE KEY `idx_u_action_url_key` (`action`,`url_key`,`language`) USING BTREE,
-  UNIQUE KEY `idx_u_action_name` (`action`,`language`,`name`) USING BTREE,
-  KEY `idx_f_action_localizartion_language` (`language`) USING BTREE,
-  KEY `idx_f_action_localization_action` (`action`) USING BTREE,
-  CONSTRAINT `idx_f_action_localizartion_action` FOREIGN KEY (`action`) REFERENCES `action` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idx_f_action_localizartion_language` FOREIGN KEY (`language`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `idxUActionLocalization` (`action`,`language`) USING BTREE,
+  UNIQUE KEY `idxUActionUrlKey` (`action`,`url_key`,`language`) USING BTREE,
+  UNIQUE KEY `idxUActionName` (`action`,`language`,`name`) USING BTREE,
+  KEY `idxFActionLocalizationLanguage` (`language`) USING BTREE,
+  KEY `idxFLocalizedAction` (`action`) USING BTREE,
+  CONSTRAINT `idxFActionLocalizationLanguage` FOREIGN KEY (`language`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFLocalizedAction` FOREIGN KEY (`action`) REFERENCES `action` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
@@ -69,16 +75,16 @@ CREATE TABLE `log` (
   `action` int(5) unsigned NOT NULL COMMENT 'Action that is being logged.',
   `site` int(10) unsigned DEFAULT NULL COMMENT 'Site that log belongs to.',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_u_log_id` (`id`) USING BTREE,
-  KEY `idx_f_log_action_idx` (`action`) USING BTREE,
-  KEY `idx_f_log_session_idx` (`session`) USING BTREE,
-  KEY `idx_n_log_date_action` (`date_action`) USING BTREE,
-  KEY `idx_n_log_session_action` (`session`,`action`) USING BTREE,
-  KEY `idx_n_log_site_session_action` (`session`,`action`,`site`) USING BTREE,
-  KEY `idx_f_log_site` (`site`) USING BTREE,
-  CONSTRAINT `idx_f_log_action` FOREIGN KEY (`action`) REFERENCES `action` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idx_f_log_session` FOREIGN KEY (`session`) REFERENCES `session` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idx_f_log_site` FOREIGN KEY (`site`) REFERENCES `site` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `idxULogId` (`id`) USING BTREE,
+  KEY `idxFActionOfLog` (`action`) USING BTREE,
+  KEY `idxFSessionOfLog` (`session`) USING BTREE,
+  KEY `idxNLogDateAction` (`date_action`) USING BTREE,
+  KEY `idxNLoggedActionsOfSession` (`session`,`action`) USING BTREE,
+  KEY `idxNLoggedActionOfSessionInSite` (`session`,`action`,`site`) USING BTREE,
+  KEY `idxFSiteOfLog` (`site`) USING BTREE,
+  CONSTRAINT `idxFSiteOfLog` FOREIGN KEY (`site`) REFERENCES `site` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFActionOfLog` FOREIGN KEY (`action`) REFERENCES `action` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFSessionOfLog` FOREIGN KEY (`session`) REFERENCES `session` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
@@ -97,14 +103,13 @@ CREATE TABLE `session` (
   `member` int(15) unsigned DEFAULT NULL COMMENT 'If a logged in member then which one?',
   `site` int(15) unsigned DEFAULT NULL COMMENT 'Site that session belongs to.',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_u_session_id` (`id`) USING BTREE,
-  KEY `idx_n_session_date_access` (`date_access`) USING BTREE,
-  KEY `idx_n_session_date_login` (`date_login`) USING BTREE,
-  KEY `idx_n_session_date_logout` (`date_logout`) USING BTREE,
-  KEY `idx_n_session_session_id` (`session_id`) USING BTREE,
+  UNIQUE KEY `idxUSessionId` (`id`) USING BTREE,
   KEY `idx_f_session_member_idx` (`member`) USING BTREE,
-  KEY `idx_n_session_date_created` (`date_created`) USING BTREE,
-  KEY `idx_f_session_site` (`site`) USING BTREE,
-  CONSTRAINT `idx_f_session_member` FOREIGN KEY (`member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idx_f_session_site` FOREIGN KEY (`site`) REFERENCES `site` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci ROW_FORMAT=COMPACT;
+  KEY `idxNSessionDateAccess` (`date_access`) USING BTREE,
+  KEY `idxNSessionDateLogin` (`date_login`) USING BTREE,
+  KEY `idxNSessionDateLogout` (`date_logout`) USING BTREE,
+  KEY `idxNSessionDateCreated` (`date_created`) USING BTREE,
+  KEY `idxFSiteOfSession` (`site`) USING BTREE,
+  CONSTRAINT `idxFSiteOfSession` FOREIGN KEY (`site`) REFERENCES `site` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFMemberOfSession` FOREIGN KEY (`member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci ROW_FORMAT=COMPACT;

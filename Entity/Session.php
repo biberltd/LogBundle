@@ -4,9 +4,10 @@ namespace BiberLtd\Bundle\LogBundle\Entity;
  * @name        session
  * @package		BiberLtd\Bundle\CoreBundle\AccessManagementBundle
  *
+ * @author		Can Berkol
  * @author		Murat Ünal
- * @version     1.0.2
- * @date        10.10.2013
+ * @version     1.0.3
+ * @date        02.05.2015
  *
  * @copyright   Biber Ltd. (http://www.biberltd.com)
  * @license     GPL v3.0
@@ -22,12 +23,12 @@ use BiberLtd\Bundle\CoreBundle\CoreEntity;
  *     name="session",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"},
  *     indexes={
- *         @ORM\Index(name="idx_n_session_date_created", columns={"date_created"}),
- *         @ORM\Index(name="idx_n_session_date_access", columns={"date_access"}),
- *         @ORM\Index(name="idx_n_session_date_login", columns={"date_login"}),
- *         @ORM\Index(name="idx_n_session_date_logout", columns={"date_logout"})
+ *         @ORM\Index(name="idxNSessionDateCreated", columns={"date_created"}),
+ *         @ORM\Index(name="idxNSessionDateAccess", columns={"date_access"}),
+ *         @ORM\Index(name="idxNSessionDateLogin", columns={"date_login"}),
+ *         @ORM\Index(name="idxNSessionDateLogout", columns={"date_logout"})
  *     },
- *     uniqueConstraints={@ORM\UniqueConstraint(name="idx_u_session_id", columns={"id"})}
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="idxUSessionId", columns={"id"})}
  * )
  */
 class Session extends CoreEntity
@@ -74,10 +75,10 @@ class Session extends CoreEntity
      */
     private $session_id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MemberManagementBundle\Entity\Member")
-     * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false)
-     */
+	/**
+	 * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\MemberManagementBundle\Entity\Member")
+	 * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+	 */
     private $member;
 
     /**
@@ -97,8 +98,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getId()
-     *  				Gets $id property.
-     * .
+	 *
      * @author          Murat Ünal
      * @since			1.0.0
      * @version         1.0.0
@@ -110,10 +110,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setData ()
-     *                                Sets the data property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setData ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -135,8 +133,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getData ()
-     *                          Returns the value of data property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -149,10 +146,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setDateAccess ()
-     *                                      Sets the date_access property.
-     *                                      Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setDateAccess ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -174,8 +169,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getDateAccess ()
-     *                                Returns the value of date_access property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -188,10 +182,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setDateCreated ()
-     *                                       Sets the date_created property.
-     *                                       Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setDateCreated ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -213,8 +205,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getDateCreated ()
-     *                                 Returns the value of date_created property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -227,10 +218,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setDateLogin ()
-     *                                     Sets the date_login property.
-     *                                     Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setDateLogin ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -252,8 +241,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getDateLogin ()
-     *                               Returns the value of date_login property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -266,10 +254,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setDateLogout ()
-     *                                      Sets the date_logout property.
-     *                                      Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setDateLogout ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -291,8 +277,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getDateLogout ()
-     *                                Returns the value of date_logout property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -305,10 +290,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setLogs ()
-     *                                Sets the logs property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setLogs ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -330,8 +313,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getLogs ()
-     *                          Returns the value of logs property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -344,10 +326,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setMember ()
-     *                                  Sets the member property.
-     *                                  Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setMember ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -369,8 +349,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getMember ()
-     *                            Returns the value of member property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -383,10 +362,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setSessionId()
-     *                                   Sets the session_id property.
-     *                                   Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setSessionId()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -408,8 +385,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getSessionId()
-     *                             Returns the value of session_id property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -422,10 +398,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setSite ()
-     *                                Sets the site property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setSite ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -447,8 +421,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getSite ()
-     *                          Returns the value of site property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -461,10 +434,8 @@ class Session extends CoreEntity
     }
 
     /**
-     * @name                  setUsername ()
-     *                                    Sets the username property.
-     *                                    Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setUsername ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -486,8 +457,7 @@ class Session extends CoreEntity
 
     /**
      * @name            getUsername ()
-     *                              Returns the value of username property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -502,7 +472,13 @@ class Session extends CoreEntity
 /**
  * Change Log:
  * **************************************
- * v1.0.2                    Murat Ünal
+ * v1.0.2                      02.05.2015
+ * Can Berkol
+ * **************************************
+ * CR :: ORM Updates
+ *
+ * **************************************
+ * v1.0.2                      Murat Ünal
  * 10.10.2013
  * **************************************
  * A get_date()

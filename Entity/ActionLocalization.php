@@ -4,27 +4,26 @@ namespace BiberLtd\Bundle\LogBundle\Entity;
  * @name        ActionLocalization
  * @package		BiberLtd\Bundle\LogBundle
  *
+ * @author		Can Berkol
  * @author		Murat Ünal
- * @version     1.0.0
- * @date        10.10.2013
+ * @version     1.0.1
+ * @date        02.05.2015
  *
  * @copyright   Biber Ltd. (http://www.biberltd.com)
  * @license     GPL v3.0
  *
- * @description Model / Entity class.
- *
  */
 use Doctrine\ORM\Mapping AS ORM;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
-/** 
+/**
  * @ORM\Entity(repositoryClass="action_localization")
  * @ORM\Table(
  *     name="action_localization",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"},
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="idx_u_action_name", columns={"language","name"}),
- *         @ORM\UniqueConstraint(name="idx_u_action_url_key", columns={"action","language","url_key"}),
- *         @ORM\UniqueConstraint(name="idx_u_action_localization", columns={"action","language"})
+ *         @ORM\UniqueConstraint(name="idxUActionName", columns={"language","name"}),
+ *         @ORM\UniqueConstraint(name="idxUActionUrlKey", columns={"action","language","url_key"}),
+ *         @ORM\UniqueConstraint(name="idxUActionLocalization", columns={"action","language"})
  *     }
  * )
  */
@@ -60,10 +59,8 @@ class ActionLocalization extends CoreEntity
     private $language;
 
     /**
-     * @name                  setAction ()
-     *                                  Sets the action property.
-     *                                  Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setAction ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -85,8 +82,7 @@ class ActionLocalization extends CoreEntity
 
     /**
      * @name            getAction ()
-     *                            Returns the value of action property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -99,10 +95,8 @@ class ActionLocalization extends CoreEntity
     }
 
     /**
-     * @name                  setDescription ()
-     *                                       Sets the description property.
-     *                                       Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setDescription ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -124,8 +118,7 @@ class ActionLocalization extends CoreEntity
 
     /**
      * @name            getDescription ()
-     *                                 Returns the value of description property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -138,10 +131,8 @@ class ActionLocalization extends CoreEntity
     }
 
     /**
-     * @name                  setLanguage ()
-     *                                    Sets the language property.
-     *                                    Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setLanguage ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -163,8 +154,7 @@ class ActionLocalization extends CoreEntity
 
     /**
      * @name            getLanguage ()
-     *                              Returns the value of language property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -177,10 +167,8 @@ class ActionLocalization extends CoreEntity
     }
 
     /**
-     * @name                  setName ()
-     *                                Sets the name property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setName ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -202,8 +190,7 @@ class ActionLocalization extends CoreEntity
 
     /**
      * @name            getName ()
-     *                          Returns the value of name property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -216,10 +203,8 @@ class ActionLocalization extends CoreEntity
     }
 
     /**
-     * @name                  setUrlKey ()
-     *                                  Sets the url_key property.
-     *                                  Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setUrlKey ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -241,8 +226,7 @@ class ActionLocalization extends CoreEntity
 
     /**
      * @name            getUrlKey ()
-     *                            Returns the value of url_key property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -253,13 +237,15 @@ class ActionLocalization extends CoreEntity
     public function getUrlKey() {
         return $this->url_key;
     }
-    /******************************************************************
-     * PUBLIC SET AND GET FUNCTIONS                                   *
-     ******************************************************************/
-
 }
 /**
  * Change Log:
+ * **************************************
+ * v1.0.1                      02.05.2015
+ * Can Berkol
+ * **************************************
+ * CR :: ORM updates.
+ *
  * **************************************
  * v1.0.0                     Murat Ünal
  * 10.10.2013

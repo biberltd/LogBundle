@@ -4,31 +4,31 @@ namespace BiberLtd\Bundle\LogBundle\Entity;
  * @name        action
  * @package		BiberLtd\Bundle\LogBundle
  *
+ * @author		Can Berkol
  * @author		Murat Ünal
- * @version     1.0.2
- * @date        10.10.2013
+ * @version     1.0.3
+ * @date        02.05.2015
  *
  * @copyright   Biber Ltd. (http://www.biberltd.com)
  * @license     GPL v3.0
  *
- * @description Model / Entity class.
- *
  */
 use Doctrine\ORM\Mapping AS ORM;
 use BiberLtd\Bundle\CoreBundle\CoreLocalizableEntity;
-/** 
+/**
  * @ORM\Entity
  * @ORM\Table(
  *     name="action",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb","temporary":false},
  *     indexes={
- *         @ORM\Index(name="idx_n_action_date_added", columns={"date_added"}),
- *         @ORM\Index(name="idx_n_action_type", columns={"type"}),
- *         @ORM\Index(name="idx_n_action_date_updated", columns={"date_updated"})
+ *         @ORM\Index(name="idxNActionDateAdded", columns={"date_added"}),
+ *         @ORM\Index(name="idxNActionType", columns={"type"}),
+ *         @ORM\Index(name="idxNActionDateUpdated", columns={"date_updated"}),
+ *         @ORM\Index(name="idxNActionDateRemoved", columns={"date_removed"})
  *     },
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="idx_u_action_id", columns={"id"}),
- *         @ORM\UniqueConstraint(name="idx_u_action_code", columns={"code"})
+ *         @ORM\UniqueConstraint(name="idxUActionId", columns={"id"}),
+ *         @ORM\UniqueConstraint(name="idxUActionCode", columns={"code"})
  *     }
  * )
  */
@@ -66,7 +66,12 @@ class Action extends CoreLocalizableEntity
      */
     private $count_logs;
 
-    /** 
+	/**
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	private $date_removed;
+
+	/**
      * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\ActionLocalization", mappedBy="action")
      */
     protected $localizations;
@@ -87,7 +92,6 @@ class Action extends CoreLocalizableEntity
 
     /**
      * @name            getId()
-     *  				Gets $id property.
      * .
      * @author          Murat Ünal
      * @since			1.0.0
@@ -100,10 +104,8 @@ class Action extends CoreLocalizableEntity
     }
 
     /**
-     * @name                  setCode ()
-     *                                Sets the code property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setCode ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -125,8 +127,7 @@ class Action extends CoreLocalizableEntity
 
     /**
      * @name            getCode ()
-     *                          Returns the value of code property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -139,10 +140,8 @@ class Action extends CoreLocalizableEntity
     }
 
     /**
-     * @name                  setCountLogs ()
-     *                                     Sets the count_logs property.
-     *                                     Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setCountLogs ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -164,8 +163,7 @@ class Action extends CoreLocalizableEntity
 
     /**
      * @name            getCountLogs ()
-     *                               Returns the value of count_logs property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -179,10 +177,8 @@ class Action extends CoreLocalizableEntity
 
 
     /**
-     * @name                  setLogs ()
-     *                                Sets the logs property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setLogs ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -204,8 +200,7 @@ class Action extends CoreLocalizableEntity
 
     /**
      * @name            getLogs ()
-     *                          Returns the value of logs property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -218,10 +213,8 @@ class Action extends CoreLocalizableEntity
     }
 
     /**
-     * @name                  setSite ()
-     *                                Sets the site property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setSite ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -243,8 +236,7 @@ class Action extends CoreLocalizableEntity
 
     /**
      * @name            getSite ()
-     *                          Returns the value of site property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -257,10 +249,8 @@ class Action extends CoreLocalizableEntity
     }
 
     /**
-     * @name                  setType ()
-     *                                Sets the type property.
-     *                                Updates the data only if stored value and value to be set are different.
-     *
+     * @name            setType ()
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -282,8 +272,7 @@ class Action extends CoreLocalizableEntity
 
     /**
      * @name            getType ()
-     *                          Returns the value of type property.
-     *
+	 *
      * @author          Can Berkol
      *
      * @since           1.0.0
@@ -297,6 +286,12 @@ class Action extends CoreLocalizableEntity
 }
 /**
  * Change Log:
+ * **************************************
+ * v1.0.3                      02.05.2015
+ * Can Berkol
+ * **************************************
+ * CR :: ORM updates.
+ *
  * **************************************
  * v1.0.2                     Murat Ünal
  * 10.10.2013
