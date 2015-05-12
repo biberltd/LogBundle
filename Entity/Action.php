@@ -6,8 +6,8 @@ namespace BiberLtd\Bundle\LogBundle\Entity;
  *
  * @author		Can Berkol
  * @author		Murat Ünal
- * @version     1.0.3
- * @date        02.05.2015
+ * @version     1.0.4
+ * @date        07.05.2015
  *
  * @copyright   Biber Ltd. (http://www.biberltd.com)
  * @license     GPL v3.0
@@ -69,7 +69,7 @@ class Action extends CoreLocalizableEntity
 	/**
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
-	private $date_removed;
+	public $date_removed;
 
 	/**
      * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\ActionLocalization", mappedBy="action")
@@ -286,6 +286,12 @@ class Action extends CoreLocalizableEntity
 }
 /**
  * Change Log:
+ * **************************************
+ * v1.0.3                      07.05.2015
+ * Can Berkol
+ * **************************************
+ * BF :: Access level of date_removed property is changed to public.
+ *
  * **************************************
  * v1.0.3                      02.05.2015
  * Can Berkol
