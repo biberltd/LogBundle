@@ -7,8 +7,8 @@
  *
  * @author		Can Berkol
  *
- * @version     1.0.0
- * @date        26.04.2015
+ * @version     1.0.1
+ * @date        25.05.2015
  *
  */
 
@@ -21,8 +21,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class SessionLogger extends Core{
-    private     $container;
-	private 	$timezone;
+	public  $container;
+	public 	$timezone;
     /**
      * @name            __construct()
      *                  Constructor.
@@ -77,6 +77,12 @@ class SessionLogger extends Core{
 }
 /**
  * Change Log
+ * ****************************************
+ * v1.0.1						25.05.2015
+ * Can Berkol
+ * ****************************************
+ * BF :: Property access levels fixed to public.
+ *
  * ****************************************
  * v1.0.0						26.04.2015
  * TW #
