@@ -9,14 +9,15 @@
  *
  * @copyright   Biber Ltd. (www.biberltd.com)
  *
- * @version     1.0.3
- * @date        02.05.2015
+ * @version     1.0.5
+ * @date        25.05.2015
  */
 namespace BiberLtd\Bundle\LogBundle\Services;
 /** Extends CoreModel */
 use BiberLtd\Bundle\CoreBundle\CoreModel;
 
 /** Entities to be used */
+use BiberLtd\Bundle\CoreBundle\Responses\ModelResponse;
 use BiberLtd\Bundle\LogBundle\Entity as BundleEntity;
 use BiberLtd\Bundle\FileManagementBundle\Entity as FileBundleEntity;
 use BiberLtd\Bundle\MultiLanguageSupportBundle\Entity as MLSEntity;
@@ -44,11 +45,11 @@ class LogModel extends CoreModel {
      * @version         1.0.3
      *
      * @param           object          $kernel
-     * @param           string          $db_connection  Database connection key as set in app/config.yml
+     * @param           string          $dbConnection  Database connection key as set in app/config.yml
      * @param           string          $orm            ORM that is used.
      */
-    public function __construct($kernel, $db_connection = 'default', $orm = 'doctrine'){
-        parent::__construct($kernel, $db_connection, $orm);
+    public function __construct($kernel, $dbConnection = 'default', $orm = 'doctrine'){
+        parent::__construct($kernel, $dbConnection, $orm);
 
         $this->entity = array(
             'a'		=> array('name' => 'LogBundle:Action', 'alias' => 'a'),
@@ -1375,6 +1376,13 @@ class LogModel extends CoreModel {
 
 /**
  * Change Log
+ * **************************************
+ * v1.0.5                      25.05.2015
+ * Can Berkol
+ * **************************************
+ * BF :: db_connection is replaced with dbConnection
+ * BF :: ModelResponse namespace added to header.
+ *
  * **************************************
  * v1.0.4                      03.05.1015
  * Can Berkol

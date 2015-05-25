@@ -6,8 +6,8 @@ namespace BiberLtd\Bundle\LogBundle\Entity;
  *
  * @author		Can Berkol
  * @author		Murat Ünal
- * @version     1.0.3
- * @date        02.05.2015
+ * @version     1.0.4
+ * @date        25.05.2015
  *
  * @copyright   Biber Ltd. (http://www.biberltd.com)
  * @license     GPL v3.0
@@ -76,7 +76,7 @@ class Session extends CoreEntity
     private $session_id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="BiberLtd\Core\Bundles\MemberManagementBundle\Entity\Member")
+	 * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MemberManagementBundle\Entity\Member")
 	 * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 */
     private $member;
@@ -85,7 +85,6 @@ class Session extends CoreEntity
      * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Log", mappedBy="session")
      */
     private $logs;
-
 
     /**
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\SiteManagementBundle\Entity\Site")
@@ -472,7 +471,13 @@ class Session extends CoreEntity
 /**
  * Change Log:
  * **************************************
- * v1.0.2                      02.05.2015
+ * v1.0.4                      25.05.2015
+ * Can Berkol
+ * **************************************
+ * BF :: ORM annotations fixed.
+ *
+ * **************************************
+ * v1.0.3                      02.05.2015
  * Can Berkol
  * **************************************
  * CR :: ORM Updates
