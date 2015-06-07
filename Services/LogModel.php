@@ -9,8 +9,8 @@
  *
  * @copyright   Biber Ltd. (www.biberltd.com)
  *
- * @version     1.0.5
- * @date        25.05.2015
+ * @version     1.0.6
+ * @date        07.06.2015
  */
 namespace BiberLtd\Bundle\LogBundle\Services;
 /** Extends CoreModel */
@@ -150,7 +150,7 @@ class LogModel extends CoreModel {
 			}
 			else{
 				$response = $this->getAction($entry);
-				if(!$response->error->exists){
+				if(!$response->error->exist){
 					$entry = $response->result->set;
 					$this->em->remove($entry);
 					$countDeleted++;
@@ -206,7 +206,7 @@ class LogModel extends CoreModel {
 			}
 			else{
 				$response = $this->getLog($entry);
-				if(!$response->error->exists){
+				if(!$response->error->exist){
 					$entry = $response->result->set;
 					$this->em->remove($entry);
 					$countDeleted++;
@@ -262,7 +262,7 @@ class LogModel extends CoreModel {
 			}
 			else{
 				$response = $this->getSession($entry);
-				if(!$response->error->exists){
+				if(!$response->error->exist){
 					$entry = $response->result->set;
 					$this->em->remove($entry);
 					$countDeleted++;
@@ -296,7 +296,7 @@ class LogModel extends CoreModel {
 
 		$response = $this->getAction($action);
 
-		if ($response->error->exists) {
+		if ($response->error->exist) {
 			if($bypass){
 				return $exist;
 			}
@@ -331,7 +331,7 @@ class LogModel extends CoreModel {
 
 		$response = $this->getSession($session);
 
-		if ($response->error->exists) {
+		if ($response->error->exist) {
 			if ($bypass) {
 				return $exist;
 			}
@@ -493,14 +493,14 @@ class LogModel extends CoreModel {
 						case 'language':
 							$lModel = $this->kernel->getContainer()->get('multilanguagesupport.model');
 							$response = $lModel->getLanguage($value);
-							if(!$response->error->exists){
+							if(!$response->error->exist){
 								$entity->$set($response->result->set);
 							}
 							unset($response, $lModel);
 							break;
 						case 'action':
 							$response = $this->getAction($value);
-							if(!$response->error->exists){
+							if(!$response->error->exist){
 								$entity->$set($response->result->set);
 							}
 							unset($response, $lModel);
@@ -659,7 +659,7 @@ class LogModel extends CoreModel {
 						case 'site':
 							$sModel = $this->kernel->getContainer()->get('sitemanagement.model');
 							$response = $sModel->getSite($value);
-							if(!$response->error->exists){
+							if(!$response->error->exist){
 								$entity->$set($response->result->set);
 							}
 							unset($response, $lModel);
@@ -731,7 +731,7 @@ class LogModel extends CoreModel {
 						case 'member':
 							$mModel = $this->kernel->getContainer()->get('membermanagement.model');
 							$response = $mModel->getMember($value);
-							if(!$response->error->exists){
+							if(!$response->error->exist){
 								$entity->$set($response->result->set);
 							}
 							unset($response, $lModel);
@@ -739,7 +739,7 @@ class LogModel extends CoreModel {
 						case 'site':
 							$sModel = $this->kernel->getContainer()->get('sitemanagement.model');
 							$response = $sModel->getSite($value);
-							if(!$response->error->exists){
+							if(!$response->error->exist){
 								$entity->$set($response->result->set);
 							}
 							unset($response, $lModel);
@@ -1376,6 +1376,12 @@ class LogModel extends CoreModel {
 
 /**
  * Change Log
+ * **************************************
+ * v1.0.6                      06.07.2015
+ * Can Berkol
+ * **************************************
+ * BF :: exists replaced with exist.
+ *
  * **************************************
  * v1.0.5                      25.05.2015
  * Can Berkol
