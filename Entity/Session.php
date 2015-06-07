@@ -23,12 +23,12 @@ use BiberLtd\Bundle\CoreBundle\CoreEntity;
  *     name="session",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"},
  *     indexes={
- *         @ORM\Index(name="idxNSessionDateCreated", columns={"date_created"}),
- *         @ORM\Index(name="idxNSessionDateAccess", columns={"date_access"}),
- *         @ORM\Index(name="idxNSessionDateLogin", columns={"date_login"}),
- *         @ORM\Index(name="idxNSessionDateLogout", columns={"date_logout"})
+ *         @ORM\Index(name="idx_n_session_date_created", columns={"date_created"}),
+ *         @ORM\Index(name="idx_n_session_date_access", columns={"date_access"}),
+ *         @ORM\Index(name="idx_n_session_date_login", columns={"date_login"}),
+ *         @ORM\Index(name="idx_n_session_date_logout", columns={"date_logout"})
  *     },
- *     uniqueConstraints={@ORM\UniqueConstraint(name="idxUSessionId", columns={"id"})}
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="idx_u_session_id", columns={"id"})}
  * )
  */
 class Session extends CoreEntity
@@ -77,7 +77,7 @@ class Session extends CoreEntity
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MemberManagementBundle\Entity\Member")
-	 * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false)
 	 */
     private $member;
 

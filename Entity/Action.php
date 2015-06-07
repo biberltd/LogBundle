@@ -21,14 +21,13 @@ use BiberLtd\Bundle\CoreBundle\CoreLocalizableEntity;
  *     name="action",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb","temporary":false},
  *     indexes={
- *         @ORM\Index(name="idxNActionDateAdded", columns={"date_added"}),
- *         @ORM\Index(name="idxNActionType", columns={"type"}),
- *         @ORM\Index(name="idxNActionDateUpdated", columns={"date_updated"}),
- *         @ORM\Index(name="idxNActionDateRemoved", columns={"date_removed"})
+ *         @ORM\Index(name="idx_n_action_date_added", columns={"date_added"}),
+ *         @ORM\Index(name="idx_n_action_type", columns={"type"}),
+ *         @ORM\Index(name="idx_n_action_date_updated", columns={"date_updated"})
  *     },
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="idxUActionId", columns={"id"}),
- *         @ORM\UniqueConstraint(name="idxUActionCode", columns={"code"})
+ *         @ORM\UniqueConstraint(name="idx_u_action_id", columns={"id"}),
+ *         @ORM\UniqueConstraint(name="idx_u_action_code", columns={"code"})
  *     }
  * )
  */
@@ -57,17 +56,17 @@ class Action extends CoreLocalizableEntity
     public $date_updated;
 
     /** 
-     * @ORM\Column(type="string", length=1, nullable=false)
+     * @ORM\Column(type="string", length=1, nullable=false, options={"default":"v"})
      */
     private $type;
 
     /** 
-     * @ORM\Column(type="integer", length=10, nullable=false)
+     * @ORM\Column(type="integer", length=10, nullable=false, options={"default":0})
      */
     private $count_logs;
 
 	/**
-	 * @ORM\Column(type="datetime", nullable=true)
+	 * 
 	 */
 	public $date_removed;
 

@@ -23,11 +23,10 @@ use BiberLtd\Bundle\CoreBundle\CoreEntity;
  *     name="log",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"},
  *     indexes={
- *         @ORM\Index(name="idxNLoggedActionsOfSession", columns={"session","action"}),
- *         @ORM\Index(name="idxNLogDateAction", columns={"date_action"}),
- *         @ORM\Index(name="idxNLoggedActionOfSessionInSite", columns={"session","action","site"})
- *     },
- *     uniqueConstraints={@ORM\UniqueConstraint(name="idxULogId", columns={"id"})}
+ *         @ORM\Index(name="idx_n_log_session_action", columns={"session","action"}),
+ *         @ORM\Index(name="idx_n_log_date_action", columns={"date_action"}),
+ *         @ORM\Index(name="idx_n_log_site_session_action", columns={"session","action","site"})
+ *     }
  * )
  */
 class Log extends CoreEntity

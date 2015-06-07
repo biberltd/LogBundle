@@ -656,6 +656,20 @@ class LogModel extends CoreModel {
 				foreach($data as $column => $value){
 					$set = 'set'.$this->translateColumnName($column);
 					switch($column){
+						case 'action':
+							$response = $this->getAction($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response, $lModel);
+							break;
+						case 'session':
+							$response = $this->getSession($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response, $lModel);
+							break;
 						case 'site':
 							$sModel = $this->kernel->getContainer()->get('sitemanagement.model');
 							$response = $sModel->getSite($value);

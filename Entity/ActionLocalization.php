@@ -21,9 +21,9 @@ use BiberLtd\Bundle\CoreBundle\CoreEntity;
  *     name="action_localization",
  *     options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"},
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="idxUActionName", columns={"language","name"}),
- *         @ORM\UniqueConstraint(name="idxUActionUrlKey", columns={"action","language","url_key"}),
- *         @ORM\UniqueConstraint(name="idxUActionLocalization", columns={"action","language"})
+ *         @ORM\UniqueConstraint(name="idx_u_action_name", columns={"language","name"}),
+ *         @ORM\UniqueConstraint(name="idx_u_action_url_key", columns={"action","language","url_key"}),
+ *         @ORM\UniqueConstraint(name="idx_u_action_localization", columns={"action","language"})
  *     }
  * )
  */
