@@ -9,8 +9,8 @@
  *
  * @copyright   Biber Ltd. (www.biberltd.com)
  *
- * @version     1.0.6
- * @date        07.06.2015
+ * @version     1.0.7
+ * @date        09.06.2015
  */
 namespace BiberLtd\Bundle\LogBundle\Services;
 /** Extends CoreModel */
@@ -847,6 +847,23 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+	/**
+	 * @name 			listRecentLogs()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.7
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->listLogs()
+	 *
+	 * @param           integer         $count
+	 * @param           array           $filter
+	 *
+	 * @return          array           $response
+	 */
+	public function listRecentLogs($count, $filter = array()){
+		return $this->listLogs($filter, array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
+	}
     /**
      * @name 			listLogs()
 	 *
@@ -1391,6 +1408,12 @@ class LogModel extends CoreModel {
 /**
  * Change Log
  * **************************************
+ * v1.0.7                      09.07.2015
+ * Can Berkol
+ * **************************************
+ * FR :: listRecentLogs() method implemented.
+ *
+ * **************************************
  * v1.0.6                      06.07.2015
  * Can Berkol
  * **************************************
@@ -1415,50 +1438,5 @@ class LogModel extends CoreModel {
  * **************************************
  * CR :: Made compatible with CoreBundle v3.3
  *
- * **************************************
- * v1.0.2                      Can Berkol
- * 05.02.2014
- * **************************************
- * A listLoggedActionsAdded()
- * A listLoggedActionsAddedBetween()
- *
- * **************************************
- * v1.0.1                      Can Berkol
- * 11.01.2014
- * **************************************
- * A countLogs()
- *
- * **************************************
- * v1.0.0                      Can Berkol
- * 09.01.2014
- * **************************************
- * A __construct()
- * A __destruct()
- * A deleteAction()
- * A deleteActions()
- * A deleteLog()
- * A deleteLogs()
- * A deleteSession()
- * A deleteSessions()
- * A doesActionExist()
- * A doesSessionExist()
- * A getAction()
- * A getLog()
- * A getSession()
- * A insertAction()
- * A insertActions()
- * A insertLog()
- * A insertLogs()
- * A insertSession()
- * A insertSessions()
- * A listActions()
- * A listLogs()
- * A listSessions()
- * A updateAction()
- * A updateActions()
- * A updateLog()
- * A updateLogs()
- * A updateSession()
- * A updateSessions()
  */
 
