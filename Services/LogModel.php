@@ -1443,7 +1443,6 @@ class LogModel extends CoreModel {
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
     }
 }
-
 /**
  * Change Log
  * **************************************
