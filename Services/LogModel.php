@@ -850,7 +850,7 @@ class LogModel extends CoreModel {
 	/**
 	 * @name 			listRecentLogs()
 	 *
-	 * @since			1.0.0
+	 * @since			1.0.7
 	 * @version         1.0.7
 	 * @author          Can Berkol
 	 *
@@ -863,6 +863,42 @@ class LogModel extends CoreModel {
 	 */
 	public function listRecentLogs($count, $filter = array()){
 		return $this->listLogs($filter, array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
+	}
+	/**
+	 * @name 			listRecentLogsOfSite()
+	 *
+	 * @since			1.0.7
+	 * @version         1.0.7
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->listLogs()
+	 *
+	 * @param           integer         $count
+	 * @param           mixed           $site
+	 * @param           array           $filter
+	 *
+	 * @return          array           $response
+	 */
+	public function listRecentLogsOfSite($count, $site, $filter = array()){
+		$timeStamp = time();
+		$sModel = new SMMService\SiteManagementModel($this->kernel, $this->dbConnection, $this->orm);
+		$response = $sModel->getSite($site);
+		if($response->error->exist){
+			return $response;
+		}
+		$site = $response->result->set;
+		$filter[] = array(
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['l']['alias'].'.site', 'comparison' => '=', 'value' => $site->getId()),
+				)
+			)
+		);
+		$response = $this->listLogs($filter, array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
+		$response->stats->execution->end = $timeStamp;
+		return $response;
 	}
     /**
      * @name 			listLogs()
@@ -898,10 +934,13 @@ class LogModel extends CoreModel {
 					case 'url':
 					case 'agent':
 					case 'session':
+					case 'date_action':
 					case 'action':
 					case 'site':
 						$column = $this->entity['l']['alias'].'.'.$column;
 						break;
+					default:
+						continue;
 				}
 				$oStr .= ' '.$column.' '.strtoupper($direction).', ';
 			}
@@ -1412,6 +1451,7 @@ class LogModel extends CoreModel {
  * Can Berkol
  * **************************************
  * FR :: listRecentLogs() method implemented.
+ * FR :: listRecentLogsOfSite() method implemented.
  *
  * **************************************
  * v1.0.6                      06.07.2015
