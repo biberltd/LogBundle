@@ -961,9 +961,9 @@ class LogModel extends CoreModel {
 
 		$entities = array();
 		foreach($result as $entry){
-			$id = $entry->getAction()->getId();
+			$id = $entry->getId();
 			if(!isset($unique[$id])){
-				$entities[] = $entry->getAction();
+				$entities[] = $entry;
 			}
 		}
 		$totalRows = count($entities);
@@ -1450,6 +1450,7 @@ class LogModel extends CoreModel {
  * v1.0.7                      09.07.2015
  * Can Berkol
  * **************************************
+ * BF :: listLogs() was returnin Action not Log entity. Fixed.
  * FR :: listRecentLogs() method implemented.
  * FR :: listRecentLogsOfSite() method implemented.
  *
