@@ -9,8 +9,8 @@
  *
  * @copyright   Biber Ltd. (www.biberltd.com)
  *
- * @version     1.0.7
- * @date        09.06.2015
+ * @version     1.0.8
+ * @date        13.06.2015
  */
 namespace BiberLtd\Bundle\LogBundle\Services;
 /** Extends CoreModel */
@@ -35,108 +35,108 @@ use BiberLtd\Bundle\CoreBundle\Exceptions as CoreExceptions;
 use MyProject\Proxies\__CG__\stdClass;
 
 class LogModel extends CoreModel {
-    /**
-     * @name            __construct()
-     *                  Constructor.
-     *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.3
-     *
-     * @param           object          $kernel
-     * @param           string          $dbConnection  Database connection key as set in app/config.yml
-     * @param           string          $orm            ORM that is used.
-     */
-    public function __construct($kernel, $dbConnection = 'default', $orm = 'doctrine'){
-        parent::__construct($kernel, $dbConnection, $orm);
+	/**
+	 * @name            __construct()
+	 *                  Constructor.
+	 *
+	 * @author          Can Berkol
+	 *
+	 * @since           1.0.0
+	 * @version         1.0.3
+	 *
+	 * @param           object          $kernel
+	 * @param           string          $dbConnection  Database connection key as set in app/config.yml
+	 * @param           string          $orm            ORM that is used.
+	 */
+	public function __construct($kernel, $dbConnection = 'default', $orm = 'doctrine'){
+		parent::__construct($kernel, $dbConnection, $orm);
 
-        $this->entity = array(
-            'a'		=> array('name' => 'LogBundle:Action', 'alias' => 'a'),
-            'al' 	=> array('name' => 'LogBundle:ActionLocalization', 'alias' => 'al'),
-            'l' 	=> array('name' => 'LogBundle:Log', 'alias' => 'l'),
-            's' 	=> array('name' => 'LogBundle:Session', 'alias' => 's'),
-            't' 	=> array('name' => 'SiteManagementBundle:Site', 'alias' => 't'),
-            'm' 	=> array('name' => 'MemberManagementBundle:Member', 'alias' => 'm'),
-        );
-    }
-    /**
-     * @name            __destruct()
-     *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     */
-    public function __destruct(){
-        foreach($this as $property => $value) {
-            $this->$property = null;
-        }
-    }
-    /**
-     * @name 			countLogs()
-     *  				Get the total count of logs.
-     *
-     * @since			1.0.1
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $filter
-     *
-     * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
-    public function countLogs($filter = null) {
-        $timeStamp = time();
-        $wStr = '';
+		$this->entity = array(
+			'a'		=> array('name' => 'LogBundle:Action', 'alias' => 'a'),
+			'al' 	=> array('name' => 'LogBundle:ActionLocalization', 'alias' => 'al'),
+			'l' 	=> array('name' => 'LogBundle:Log', 'alias' => 'l'),
+			's' 	=> array('name' => 'LogBundle:Session', 'alias' => 's'),
+			't' 	=> array('name' => 'SiteManagementBundle:Site', 'alias' => 't'),
+			'm' 	=> array('name' => 'MemberManagementBundle:Member', 'alias' => 'm'),
+		);
+	}
+	/**
+	 * @name            __destruct()
+	 *
+	 * @author          Can Berkol
+	 *
+	 * @since           1.0.0
+	 * @version         1.0.0
+	 *
+	 */
+	public function __destruct(){
+		foreach($this as $property => $value) {
+			$this->$property = null;
+		}
+	}
+	/**
+	 * @name 			countLogs()
+	 *  				Get the total count of logs.
+	 *
+	 * @since			1.0.1
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $filter
+	 *
+	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function countLogs($filter = null) {
+		$timeStamp = time();
+		$wStr = '';
 
 		$qStr = 'SELECT COUNT('. $this->entity['l']['alias'].')'
-					.' FROM '.$this->entity['l']['name'].' '.$this->entity['l']['alias'];
+			.' FROM '.$this->entity['l']['name'].' '.$this->entity['l']['alias'];
 
-        if (!is_null($filter)) {
-            $fStr = $this->prepareWhere($filter);
+		if (!is_null($filter)) {
+			$fStr = $this->prepareWhere($filter);
 			$wStr .= ' WHERE ' . $fStr;
-        }
+		}
 
-        $qStr .= $wStr;
-        $q = $this->em->createQuery($qStr);
+		$qStr .= $wStr;
+		$q = $this->em->createQuery($qStr);
 
-        $result = $q->getSingleScalarResult();
+		$result = $q->getSingleScalarResult();
 
 		return new ModelResponse($result, 1, 1, null, false, 'S:D:004', 'Entries have been counted successfully.', $timeStamp, time());
-    }
-    /**
-     * @name 			deleteAction()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
+	}
+	/**
+	 * @name 			deleteAction()
 	 *
-     * @author          Can Berkol
-     *
-     * @use             $this->deleteActions()
-     *
-     * @param           mixed           $action
-     *
-     * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
-    public function deleteAction($action){
-        return $this->deleteActions(array($action));
-    }
-    /**
-     * @name 			deleteActions()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 *
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->deleteActions()
+	 *
+	 * @param           mixed           $action
+	 *
+	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function deleteAction($action){
+		return $this->deleteActions(array($action));
+	}
+	/**
+	 * @name 			deleteActions()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
 	public function deleteActions($collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
@@ -163,36 +163,36 @@ class LogModel extends CoreModel {
 		$this->em->flush();
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
-    }
-    /**
-     * @name 			deleteLog()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->deleteLogs()
-     *
-     * @param           mixed           $log
-     *
-     * @return          mixed           $response
-     */
-    public function deleteLog($log){
-        return $this->deleteLogs(array($log));
-    }
-    /**
-     * @name 			deleteLogs()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
+	}
+	/**
+	 * @name 			deleteLog()
 	 *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
 	 *
-     * @return          array           $response
-     */
+	 * @use             $this->deleteLogs()
+	 *
+	 * @param           mixed           $log
+	 *
+	 * @return          mixed           $response
+	 */
+	public function deleteLog($log){
+		return $this->deleteLogs(array($log));
+	}
+	/**
+	 * @name 			deleteLogs()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
 	public function deleteLogs($collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
@@ -220,36 +220,36 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			deleteSession()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->deleteSessions()
-     *
-     * @param           mixed           $session
-     *
-     * @return          mixed           $response
-     */
-    public function deleteSession($session){
-        return $this->deleteSessions(array($session));
-    }
-    /**
-     * @name 			deleteSessions()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          array           $response
-     */
-    public function deleteSessions($collection){
+	/**
+	 * @name 			deleteSession()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->deleteSessions()
+	 *
+	 * @param           mixed           $session
+	 *
+	 * @return          mixed           $response
+	 */
+	public function deleteSession($session){
+		return $this->deleteSessions(array($session));
+	}
+	/**
+	 * @name 			deleteSessions()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
+	public function deleteSessions($collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -275,21 +275,21 @@ class LogModel extends CoreModel {
 		$this->em->flush();
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
-    }
-    /**
-     * @name 			doesActionExist()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->getAction()
-     *
-     * @param           mixed           $action         id, code
-     * @param           bool            $bypass         If set to true does not return response but only the result.
-     *
-     * @return          mixed           $response
-     */
+	}
+	/**
+	 * @name 			doesActionExist()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->getAction()
+	 *
+	 * @param           mixed           $action         id, code
+	 * @param           bool            $bypass         If set to true does not return response but only the result.
+	 *
+	 * @return          mixed           $response
+	 */
 	public function doesActionExist($action, $bypass = false) {
 		$timeStamp = time();
 		$exist = false;
@@ -348,19 +348,19 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			getAction()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           mixed           $action
-     *
-     * @return          mixed           $response
-     */
+	/**
+	 * @name 			getAction()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           mixed           $action
+	 *
+	 * @return          mixed           $response
+	 */
 	public function getAction($action) {
 		$timeStamp = time();
 		if($action instanceof BundleEntity\Action){
@@ -381,17 +381,17 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			getLog()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @param           mixed			$log
-     *
-     * @return          mixed           $response
-     */
+	/**
+	 * @name 			getLog()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @param           mixed			$log
+	 *
+	 * @return          mixed           $response
+	 */
 	public function getLog($log) {
 		$timeStamp = time();
 		if($log instanceof BundleEntity\Log){
@@ -409,19 +409,19 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			getSession()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           mixed           $session
-     *
-     * @return          mixed           $response
-     */
+	/**
+	 * @name 			getSession()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           mixed           $session
+	 *
+	 * @return          mixed           $response
+	 */
 	public function getSession($session) {
 		$timeStamp = time();
 		if($session instanceof BundleEntity\Session){
@@ -442,22 +442,22 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			insertAction()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->insertActions()
-     *
-     * @param           mixed           $action               Entity or post
-     *
-     * @return          array           $response
-     */
-    public function insertAction($action){
-        return $this->insertActions(array($action));
-    }
+	/**
+	 * @name 			insertAction()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->insertActions()
+	 *
+	 * @param           mixed           $action               Entity or post
+	 *
+	 * @return          array           $response
+	 */
+	public function insertAction($action){
+		return $this->insertActions(array($action));
+	}
 	/**
 	 * @name 			insertActionLocalizations()
 	 *
@@ -466,11 +466,11 @@ class LogModel extends CoreModel {
 	 * @author          Can Berkol
 	 *
 	 * @use             $this->createException()
-     *
-     * @param           array           $collection      Collection of Site entities or array of site detais array.
-     *
-     * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
+	 *
+	 * @param           array           $collection      Collection of Site entities or array of site detais array.
+	 *
+	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
 	public function insertActionLocalizations($collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
@@ -521,19 +521,19 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
-    /**
-     * @name 			insertActions()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          array           $response
-     */
+	/**
+	 * @name 			insertActions()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
 	public function insertActions($collection)	{
 		$timeStamp = time();
 		/** Parameter must be an array */
@@ -608,35 +608,35 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
-    /**
-     * @name 			insertLog()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->insertLogs()
-     *
-     * @param           mixed           $log               Entity or post
-     *
-     * @return          array           $response
-     */
-    public function insertLog($log){
-        return $this->insertLogs(array($log));
-    }
-    /**
-     * @name 			insertLogs()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          array           $response
-     */
+	/**
+	 * @name 			insertLog()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->insertLogs()
+	 *
+	 * @param           mixed           $log               Entity or post
+	 *
+	 * @return          array           $response
+	 */
+	public function insertLog($log){
+		return $this->insertLogs(array($log));
+	}
+	/**
+	 * @name 			insertLogs()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
 	public function insertLogs($collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
@@ -694,35 +694,35 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
-    /**
-     * @name 			insertSession()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->insertSessions()
-     *
-     * @param           mixed           $session               Entity or post
-     *
-     * @return          array           $response
-     */
-    public function insertSession($session){
-        return $this->insertSessions(array($session));
-    }
-    /**
-     * @name 			insertSessions()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          array           $response
-     */
+	/**
+	 * @name 			insertSession()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->insertSessions()
+	 *
+	 * @param           mixed           $session               Entity or post
+	 *
+	 * @return          array           $response
+	 */
+	public function insertSession($session){
+		return $this->insertSessions(array($session));
+	}
+	/**
+	 * @name 			insertSessions()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
 	public function insertSessions($collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
@@ -774,74 +774,74 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
-    /**
-     * @name 			listActions()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $filter
-     * @param           array           $sortOrder
-     * @param           array           $limit
-     *
-     * @return          array           $response
-     */
-    public function listActions($filter = null, $sortOrder = null, $limit = null){
-        $timeStamp = time();
-        if(!is_array($sortOrder) && !is_null($sortOrder)){
+	/**
+	 * @name 			listActions()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $filter
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          array           $response
+	 */
+	public function listActions($filter = null, $sortOrder = null, $limit = null){
+		$timeStamp = time();
+		if(!is_array($sortOrder) && !is_null($sortOrder)){
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
-        }
-        $oStr = $wStr = $gStr = $fStr = '';
+		}
+		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '.$this->entity['al']['alias'].', '.$this->entity['a']['alias']
-                .' FROM '.$this->entity['al']['name'].' '.$this->entity['al']['alias']
-                .' JOIN '.$this->entity['al']['alias'].'.action '.$this->entity['a']['alias'];
+			.' FROM '.$this->entity['al']['name'].' '.$this->entity['al']['alias']
+			.' JOIN '.$this->entity['al']['alias'].'.action '.$this->entity['a']['alias'];
 
-        if(!is_null($sortOrder)){
-            foreach($sortOrder as $column => $direction){
-                switch($column){
-                    case 'id':
-                    case 'code':
-                    case 'date_added':
-                    case 'date_updated':
-                    case 'date_removed':
-                    case 'count_logs':
-                    case 'type':
-                        $column = $this->entity['a']['alias'].'.'.$column;
-                        break;
-                    case 'name':
-                    case 'url_key':
-                        $column = $this->entity['al']['alias'].'.'.$column;
-                        break;
-                }
-                $oStr .= ' '.$column.' '.strtoupper($direction).', ';
-            }
+		if(!is_null($sortOrder)){
+			foreach($sortOrder as $column => $direction){
+				switch($column){
+					case 'id':
+					case 'code':
+					case 'date_added':
+					case 'date_updated':
+					case 'date_removed':
+					case 'count_logs':
+					case 'type':
+						$column = $this->entity['a']['alias'].'.'.$column;
+						break;
+					case 'name':
+					case 'url_key':
+						$column = $this->entity['al']['alias'].'.'.$column;
+						break;
+				}
+				$oStr .= ' '.$column.' '.strtoupper($direction).', ';
+			}
 			$oStr = rtrim($oStr, ', ');
 			$oStr = ' ORDER BY '.$oStr.' ';
-        }
+		}
 
-        if(!is_null($filter)){
-            $fStr = $this->prepareWhere($filter);
-            $wStr .= ' WHERE '.$fStr;
-        }
+		if(!is_null($filter)){
+			$fStr = $this->prepareWhere($filter);
+			$wStr .= ' WHERE '.$fStr;
+		}
 
-        $qStr .= $wStr.$gStr.$oStr;
-        $q = $this->em->createQuery($qStr);
+		$qStr .= $wStr.$gStr.$oStr;
+		$q = $this->em->createQuery($qStr);
 		$q = $this->addLimit($q, $limit);
 
-        $result = $q->getResult();
+		$result = $q->getResult();
 
-        $entities = array();
-        foreach($result as $entry){
-            $id = $entry->getAction()->getId();
-            if(!isset($unique[$id])){
-                $entities[] = $entry->getAction();
-            }
-        }
-        $totalRows = count($entities);
+		$entities = array();
+		foreach($result as $entry){
+			$id = $entry->getAction()->getId();
+			if(!isset($unique[$id])){
+				$entities[] = $entry->getAction();
+			}
+		}
+		$totalRows = count($entities);
 		if ($totalRows < 1) {
 			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
 		}
@@ -863,6 +863,26 @@ class LogModel extends CoreModel {
 	 */
 	public function listRecentLogs($count, $filter = array()){
 		return $this->listLogs($filter, array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
+	}
+	/**
+	 * @name 			listRecentLogsOfMember()
+	 *
+	 * @since			1.0.8
+	 * @version         1.0.8
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->listLogs()
+	 *
+	 * @param           integer         $count
+	 * @param           mixed           $member
+	 * @param           array           $filter
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          array           $response
+	 */
+	public function listRecentLogsOfMember($count, $member, $filter = array(), $sortOrder = array(), $limit = array()){
+		return $this->listLogsOfMember($member, array(), array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
 	}
 	/**
 	 * @name 			listRecentLogsOfSite()
@@ -900,21 +920,21 @@ class LogModel extends CoreModel {
 		$response->stats->execution->end = $timeStamp;
 		return $response;
 	}
-    /**
-     * @name 			listLogs()
+	/**
+	 * @name 			listLogs()
 	 *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $filter
-     * @param           array           $sortOrder
-     * @param           array           $limit
-     *
-     * @return          array           $response
-     */
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $filter
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          array           $response
+	 */
 	public function listLogs($filter = null, $sortOrder = null, $limit = null){
 		$timeStamp = time();
 		if(!is_array($sortOrder) && !is_null($sortOrder)){
@@ -923,7 +943,7 @@ class LogModel extends CoreModel {
 		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '.$this->entity['l']['alias'].', '.$this->entity['l']['alias']
-					.' FROM '.$this->entity['l']['name'].' '.$this->entity['l']['alias'];
+			.' FROM '.$this->entity['l']['name'].' '.$this->entity['l']['alias'];
 
 		if(!is_null($sortOrder)){
 			foreach($sortOrder as $column => $direction){
@@ -972,152 +992,242 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			listLoggedActionsAdded()
-     *
-     * @since			1.0.2
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @uses            $this->listLogs()
-     *
+	/**
+	 * @name 			listLogsOfMember()
+	 *
+	 * @since			1.0.8
+	 * @version         1.0.8
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->listLogs()
+	 *
+	 * @param           mixed           $member
+	 * @param           array           $filter
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          array           $response
+	 */
+	public function listLogsOfMember($member, $filter = array(), $sortOrder = array(), $limit = array()){
+		$timeStamp = time();
+		$mModel = new MMMService\MemberManagementModel($this->kernel, $this->dbConnection, $this->orm);
+		$response = $mModel->getMember($member);
+		if($response->error->exist){
+			return $response;
+		}
+		$member = $response->result->set;
+
+		$timeStamp = time();
+		if(!is_array($sortOrder) && !is_null($sortOrder)){
+			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
+		}
+		$oStr = $wStr = $gStr = $fStr = '';
+
+		$qStr = 'SELECT '.$this->entity['s']['alias'].', '.$this->entity['l']['alias']
+			.' FROM '.$this->entity['l']['name'].' '.$this->entity['l']['alias']
+			.' JOIN '.$this->entity['l']['alias'].'.session '.$this->entity['s']['alias'];
+
+		if(!is_null($sortOrder)){
+			foreach($sortOrder as $column => $direction){
+				switch($column){
+					case 'id':
+					case 'ip_v4':
+					case 'ip_v6':
+					case 'url':
+					case 'agent':
+					case 'session':
+					case 'date_action':
+					case 'action':
+					case 'site':
+						$column = $this->entity['l']['alias'].'.'.$column;
+						break;
+					default:
+						continue;
+				}
+				$oStr .= ' '.$column.' '.strtoupper($direction).', ';
+			}
+			$oStr = rtrim($oStr, ', ');
+			$oStr = ' ORDER BY '.$oStr.' ';
+		}
+		$filter[] = array(
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['s']['alias'].'.member', 'comparison' => '=', 'value' => $member->getId()),
+				)
+			)
+		);
+		if(!is_null($filter)){
+			$fStr = $this->prepareWhere($filter);
+			$wStr .= ' WHERE '.$fStr;
+		}
+
+		$qStr .= $wStr.$gStr.$oStr;
+		$q = $this->em->createQuery($qStr);
+		$q = $this->addLimit($q, $limit);
+
+		$result = $q->getResult();
+
+		$entities = array();
+		foreach($result as $entry){
+			$id = $entry->getId();
+			if(!isset($unique[$id])){
+				$entities[] = $entry;
+			}
+		}
+		$totalRows = count($entities);
+		if ($totalRows < 1) {
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
+		}
+		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+	}
+	/**
+	 * @name 			listLoggedActionsAdded()
+	 *
+	 * @since			1.0.2
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @uses            $this->listLogs()
+	 *
 	 * @param           mixed 			$date
 	 * @param           string 			$eq 		after, before, between, on
-     * @param           array           $sortOrder
-     * @param           array           $limit
-     *
-     * @return          array           $response
-     */
-    public function listLoggedActionsAdded($date, $eq, $sortOrder = null, $limit = null) {
-        $timeStamp = time();
-        $eqOpts = array('after', 'before', 'between', 'on');
-        if (!$date instanceof \DateTime && !is_array($date)) {
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          array           $response
+	 */
+	public function listLoggedActionsAdded($date, $eq, $sortOrder = null, $limit = null) {
+		$timeStamp = time();
+		$eqOpts = array('after', 'before', 'between', 'on');
+		if (!$date instanceof \DateTime && !is_array($date)) {
 			return $this->createException('InvalidSortOrderException', '$date must be an instance of \DateTime or an array that holds exactly two instances of \DateTime', 'E:S:001');
-        }
-        if (!in_array($eq, $eqOpts)) {
+		}
+		if (!in_array($eq, $eqOpts)) {
 			return $this->createException('InvalidSortOrderException', '$eq can have only one of the following values: "after", "before", "between", "on".', 'E:S:001');
-        }
-        $column = $this->entity['l']['alias'].'.date_action';
+		}
+		$column = $this->entity['l']['alias'].'.date_action';
 
-        if ($eq == 'after' || $eq == 'before' || $eq == 'on') {
-            switch ($eq) {
-                case 'after':
-                    $eq = '>';
-                    break;
-                case 'before':
-                    $eq = '<';
-                    break;
-                case 'on':
-                    $eq = '=';
-                    break;
-            }
-            $condition = array('column' => $column, 'comparison' => $eq, 'value' => $date);
-            $filter[] = array(
-                'glue' => 'and',
-                'condition' => array(
-                    array(
-                        'glue' => 'and',
-                        'condition' => $condition,
-                    )
-                )
-            );
-        }
+		if ($eq == 'after' || $eq == 'before' || $eq == 'on') {
+			switch ($eq) {
+				case 'after':
+					$eq = '>';
+					break;
+				case 'before':
+					$eq = '<';
+					break;
+				case 'on':
+					$eq = '=';
+					break;
+			}
+			$condition = array('column' => $column, 'comparison' => $eq, 'value' => $date);
+			$filter[] = array(
+				'glue' => 'and',
+				'condition' => array(
+					array(
+						'glue' => 'and',
+						'condition' => $condition,
+					)
+				)
+			);
+		}
 		else {
-            $filter[] = array(
-                'glue' => 'and',
-                'condition' => array(
-                    array(
-                        'glue' => 'and',
-                        'condition' => array('column' => $column, 'comparison' => '>', 'value' => $date[0]),
-                    ),
-                    array(
-                        'glue' => 'and',
-                        'condition' => array('column' => $column, 'comparison' => '<', 'value' => $date[1]),
-                    )
-                )
-            );
-        }
-        $response = $this->listLogs($filter, $sortOrder, $limit);
+			$filter[] = array(
+				'glue' => 'and',
+				'condition' => array(
+					array(
+						'glue' => 'and',
+						'condition' => array('column' => $column, 'comparison' => '>', 'value' => $date[0]),
+					),
+					array(
+						'glue' => 'and',
+						'condition' => array('column' => $column, 'comparison' => '<', 'value' => $date[1]),
+					)
+				)
+			);
+		}
+		$response = $this->listLogs($filter, $sortOrder, $limit);
 		$response->stats->execution->start = $timeStamp;
 		$response->stats->execution->end = time();
 		return $response;
-    }
-    /**
-     * @name 			listLoggedActionsAddedBetween()
-     *
-     * @since			1.0.2
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           \DateTime       $startDate
-     * @param           \DateTime       $endDate
-     *
-     * @param           array           $sortOrder
-     * @param           array           $limit
-     *
-     * @return          array           $response
-     */
-    public function listLoggedActionsAddedBetween(\DateTime $startDate, \DateTime $endDate, $sortOrder = null, $limit = null){
-        return $this->listLoggedActionsAdded(array($startDate, $endDate), 'between', $sortOrder, $limit);
-    }
-    /**
-     * @name 			listSessions()
-     *  				List sessions from database based on a variety of conditions.
-     *
-     * @since			1.0.0
-     * @version         1.0.4
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $filter
-     * @param           array           $sortOrder
-     * @param           array           $limit
-     *
-     * @return          array           $response
-     */
-    public function listSessions($filter = null, $sortOrder = null, $limit = null, $query_str = null){
-        $timeStamp = time();
-        if(!is_array($sortOrder) && !is_null($sortOrder)){
+	}
+	/**
+	 * @name 			listLoggedActionsAddedBetween()
+	 *
+	 * @since			1.0.2
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           \DateTime       $startDate
+	 * @param           \DateTime       $endDate
+	 *
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          array           $response
+	 */
+	public function listLoggedActionsAddedBetween(\DateTime $startDate, \DateTime $endDate, $sortOrder = null, $limit = null){
+		return $this->listLoggedActionsAdded(array($startDate, $endDate), 'between', $sortOrder, $limit);
+	}
+	/**
+	 * @name 			listSessions()
+	 *  				List sessions from database based on a variety of conditions.
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.4
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $filter
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          array           $response
+	 */
+	public function listSessions($filter = null, $sortOrder = null, $limit = null, $query_str = null){
+		$timeStamp = time();
+		if(!is_array($sortOrder) && !is_null($sortOrder)){
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
-        }
-        $oStr = $wStr = $gStr = $fStr = '';
-        $where_str = '';
-        $group_str = '';
+		}
+		$oStr = $wStr = $gStr = $fStr = '';
+		$where_str = '';
+		$group_str = '';
 
 		$qStr = 'SELECT '.$this->entity['s']['alias']
-                .' FROM '.$this->entity['s']['name'].' '.$this->entity['s']['alias'];
+			.' FROM '.$this->entity['s']['name'].' '.$this->entity['s']['alias'];
 
-        if($sortOrder != null){
-            foreach($sortOrder as $column => $direction){
-                switch($column){
-                    case 'id':
-                    case 'session_id':
-                    case 'username':
-                    case 'date_created':
-                    case 'date_login':
-                    case 'date_logout':
-                    case 'date_access':
-                        $column = $this->entity['s']['alias'].'.'.$column;
-                        break;
-                }
-                $oStr .= ' '.$column.' '.strtoupper($direction).', ';
-            }
+		if($sortOrder != null){
+			foreach($sortOrder as $column => $direction){
+				switch($column){
+					case 'id':
+					case 'session_id':
+					case 'username':
+					case 'date_created':
+					case 'date_login':
+					case 'date_logout':
+					case 'date_access':
+						$column = $this->entity['s']['alias'].'.'.$column;
+						break;
+				}
+				$oStr .= ' '.$column.' '.strtoupper($direction).', ';
+			}
 			$oStr = rtrim($oStr, ', ');
 			$oStr = ' ORDER BY '.$oStr.' ';
-        }
+		}
 
-        if($filter != null){
-            $fStr = $this->prepareWhere($filter);
-            $wStr .= ' WHERE '.$fStr;
-        }
-        $qStr .= $wStr.$gStr.$oStr;
-        $q = $this->em->createQuery($qStr);
+		if($filter != null){
+			$fStr = $this->prepareWhere($filter);
+			$wStr .= ' WHERE '.$fStr;
+		}
+		$qStr .= $wStr.$gStr.$oStr;
+		$q = $this->em->createQuery($qStr);
 		$q = $this->addLimit($q, $limit);
 
-        $result = $q->getResult();
+		$result = $q->getResult();
 
 		$totalRows = count($result);
 		if ($totalRows < 1) {
@@ -1125,36 +1235,36 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			updateAction()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->updateActions()
-     *
-     * @param           mixed           $action
-     *
-     * @return          mixed           $response
-     */
-    public function updateAction($action){
-        return $this->updateActions(array($action));
-    }
-    /**
-     * @name 			updateActions()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          array           $response
-     */
-    public function updateActions($collection){
+	/**
+	 * @name 			updateAction()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->updateActions()
+	 *
+	 * @param           mixed           $action
+	 *
+	 * @return          mixed           $response
+	 */
+	public function updateAction($action){
+		return $this->updateActions(array($action));
+	}
+	/**
+	 * @name 			updateActions()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
+	public function updateActions($collection){
 		$timeStamp = time();
 		/** Parameter must be an array */
 		if (!is_array($collection)) {
@@ -1244,37 +1354,37 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
-    /**
-     * @name 			updateLog()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->updateLogs()
-     *
-     * @param           mixed           $log
-     *
-     * @return          mixed           $response
-     */
-    public function updateLog($log){
-        return $this->updateLogs(array($log));
-    }
-    /**
-     * @name 			updateLogs()
-     *  				Updates one or more log details in database.
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          array           $response
-     */
-    public function updateLogs($collection){
+	/**
+	 * @name 			updateLog()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->updateLogs()
+	 *
+	 * @param           mixed           $log
+	 *
+	 * @return          mixed           $response
+	 */
+	public function updateLog($log){
+		return $this->updateLogs(array($log));
+	}
+	/**
+	 * @name 			updateLogs()
+	 *  				Updates one or more log details in database.
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.0
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
+	public function updateLogs($collection){
 		$timeStamp = time();
 		/** Parameter must be an array */
 		if (!is_array($collection)) {
@@ -1343,35 +1453,35 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
-    /**
-     * @name 			updateSession(
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->updateSessions()
-     *
-     * @param           mixed           $session
-     *
-     * @return          mixed           $response
-     */
-    public function updateSession($session){
-        return $this->updateSessions(array($session));
-    }
-    /**
-     * @name 			updateSessions()
-     *
-     * @since			1.0.0
-     * @version         1.0.3
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          array           $response
-     */
+	/**
+	 * @name 			updateSession(
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->updateSessions()
+	 *
+	 * @param           mixed           $session
+	 *
+	 * @return          mixed           $response
+	 */
+	public function updateSession($session){
+		return $this->updateSessions(array($session));
+	}
+	/**
+	 * @name 			updateSessions()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.3
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          array           $response
+	 */
 	public function updateSessions($collection){
 		$timeStamp = time();
 		/** Parameter must be an array */
@@ -1441,20 +1551,27 @@ class LogModel extends CoreModel {
 			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, time());
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
-    }
+	}
 }
 /**
  * Change Log
  * **************************************
- * v1.0.7                      09.07.2015
+ * v1.0.8                      13.05.2015
  * Can Berkol
  * **************************************
- * BF :: listLogs() was returnin Action not Log entity. Fixed.
+ * FR :: listLogsOfMember() implemented().
+ * FR :: listRecentLogsOfMember() implemented().
+ *
+ * **************************************
+ * v1.0.7                      09.05.2015
+ * Can Berkol
+ * **************************************
+ * BF :: listLogs() was returning Action not Log entity. Fixed.
  * FR :: listRecentLogs() method implemented.
  * FR :: listRecentLogsOfSite() method implemented.
  *
  * **************************************
- * v1.0.6                      06.07.2015
+ * v1.0.6                      06.05.2015
  * Can Berkol
  * **************************************
  * BF :: exists replaced with exist.
