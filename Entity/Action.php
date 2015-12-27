@@ -1,18 +1,15 @@
 <?php
-namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
- * @name        action
- * @package		BiberLtd\Bundle\LogBundle
- *
  * @author		Can Berkol
- * @author		Murat Ünal
- * @version     1.0.4
- * @date        07.05.2015
+ * @author		Said İmamoğlu
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
+ * @date        28.12.2015
  */
+namespace BiberLtd\Bundle\LogBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 use BiberLtd\Bundle\CoreBundle\CoreLocalizableEntity;
 /**
@@ -37,86 +34,72 @@ class Action extends CoreLocalizableEntity
      * @ORM\Id
      * @ORM\Column(type="smallint", length=5)
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /** 
      * @ORM\Column(type="string", unique=true, length=45, nullable=false)
+     * @var string
      */
     private $code;
 
     /** 
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
     public $date_added;
 
     /** 
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
     public $date_updated;
 
     /** 
      * @ORM\Column(type="string", length=1, nullable=false, options={"default":"v"})
+     * @var string
      */
     private $type;
 
     /** 
      * @ORM\Column(type="integer", length=10, nullable=false, options={"default":0})
+     * @var int
      */
     private $count_logs;
 
 	/**
-	 * 
-	 */
-	public $date_removed;
-
-	/**
      * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\ActionLocalization", mappedBy="action")
+	 * @var array
      */
     protected $localizations;
 
     /** 
      * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Log", mappedBy="action")
+     * @var array
      */
     private $logs;
 
     /** 
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\SiteManagementBundle\Entity\Site")
      * @ORM\JoinColumn(name="site", referencedColumnName="id", onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\SiteManagementBundle\Entity\Site
      */
     private $site;
-    /******************************************************************
-     * PUBLIC SET AND GET FUNCTIONS                                   *
-     ******************************************************************/
 
-    /**
-     * @name            getId()
-     * .
-     * @author          Murat Ünal
-     * @since			1.0.0
-     * @version         1.0.0
-     *
-     * @return          string          $this->id
-     */
+	/**
+	 * @return mixed
+	 */
     public function getId(){
         return $this->id;
     }
 
-    /**
-     * @name            setCode ()
+	/**
+	 * @param string $code
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $code
-     *
-     * @return          object                $this
-     */
-    public function setCode($code) {
+	 * @return $this
+	 */
+    public function setCode(\string $code) {
         if(!$this->setModified('code', $code)->isModified()) {
             return $this;
         }
@@ -124,35 +107,19 @@ class Action extends CoreLocalizableEntity
 		return $this;
     }
 
-    /**
-     * @name            getCode ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->code
-     */
+	/**
+	 * @return string
+	 */
     public function getCode() {
         return $this->code;
     }
 
-    /**
-     * @name            setCountLogs ()
+	/**
+	 * @param \şnteger $count_logs
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $count_logs
-     *
-     * @return          object                $this
-     */
-    public function setCountLogs($count_logs) {
+	 * @return $this
+	 */
+    public function setCountLogs(\şnteger $count_logs) {
         if(!$this->setModified('count_logs', $count_logs)->isModified()) {
             return $this;
         }
@@ -160,36 +127,19 @@ class Action extends CoreLocalizableEntity
 		return $this;
     }
 
-    /**
-     * @name            getCountLogs ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->count_logs
-     */
+	/**
+	 * @return int
+	 */
     public function getCountLogs() {
         return $this->count_logs;
     }
 
-
-    /**
-     * @name            setLogs ()
+	/**
+	 * @param array $logs
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $logs
-     *
-     * @return          object                $this
-     */
-    public function setLogs($logs) {
+	 * @return $this
+	 */
+    public function setLogs(array $logs) {
         if(!$this->setModified('logs', $logs)->isModified()) {
             return $this;
         }
@@ -197,35 +147,19 @@ class Action extends CoreLocalizableEntity
 		return $this;
     }
 
-    /**
-     * @name            getLogs ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->logs
-     */
+	/**
+	 * @return array
+	 */
     public function getLogs() {
         return $this->logs;
     }
 
-    /**
-     * @name            setSite ()
+	/**
+	 * @param \BiberLtd\Bundle\SiteManagementBundle\Entity\Site $site
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $site
-     *
-     * @return          object                $this
-     */
-    public function setSite($site) {
+	 * @return $this
+	 */
+    public function setSite(\BiberLtd\Bundle\SiteManagementBundle\Entity\Site $site) {
         if(!$this->setModified('site', $site)->isModified()) {
             return $this;
         }
@@ -233,35 +167,19 @@ class Action extends CoreLocalizableEntity
 		return $this;
     }
 
-    /**
-     * @name            getSite ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->site
-     */
+	/**
+	 * @return \BiberLtd\Bundle\SiteManagementBundle\Entity\Site
+	 */
     public function getSite() {
         return $this->site;
     }
 
-    /**
-     * @name            setType ()
+	/**
+	 * @param string $type
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $type
-     *
-     * @return          object                $this
-     */
-    public function setType($type) {
+	 * @return $this
+	 */
+    public function setType(\string $type) {
         if(!$this->setModified('type', $type)->isModified()) {
             return $this;
         }
@@ -269,55 +187,10 @@ class Action extends CoreLocalizableEntity
 		return $this;
     }
 
-    /**
-     * @name            getType ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->type
-     */
+	/**
+	 * @return string
+	 */
     public function getType() {
         return $this->type;
     }
 }
-/**
- * Change Log:
- * **************************************
- * v1.0.3                      07.05.2015
- * Can Berkol
- * **************************************
- * BF :: Access level of date_removed property is changed to public.
- *
- * **************************************
- * v1.0.3                      02.05.2015
- * Can Berkol
- * **************************************
- * CR :: ORM updates.
- *
- * **************************************
- * v1.0.2                     Murat Ünal
- * 10.10.2013
- * **************************************
- * A getCode()
- * A getCountLogs()
- * A getDateAdded()
- * A getDateUpdated()
- * A getId()
- * A getLocalizations()
- * A getLogs()
- * A getSite()
- * A getType()
- *
- * A setCode()
- * A setCountLogs()
- * A set_date_added()
- * A setDateUpdated()
- * A setLocalizations()
- * A setLogs()
- * A setSite()
- * A setType()
- *
- */

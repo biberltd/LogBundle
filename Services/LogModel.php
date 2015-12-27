@@ -1,54 +1,38 @@
 <?php
 /**
- * @vendor      BiberLtd
- * @package		Core\Bundles\LogBundle
- * @subpackage	Services
- * @name	    LogModel
- *
  * @author		Can Berkol
+ * @author		Said İmamoğlu
  *
- * @copyright   Biber Ltd. (www.biberltd.com)
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @version     1.0.8
- * @date        13.06.2015
+ * @date        28.12.2015
  */
 namespace BiberLtd\Bundle\LogBundle\Services;
-/** Extends CoreModel */
+
 use BiberLtd\Bundle\CoreBundle\CoreModel;
 
-/** Entities to be used */
 use BiberLtd\Bundle\CoreBundle\Responses\ModelResponse;
 use BiberLtd\Bundle\LogBundle\Entity as BundleEntity;
 use BiberLtd\Bundle\FileManagementBundle\Entity as FileBundleEntity;
 use BiberLtd\Bundle\MultiLanguageSupportBundle\Entity as MLSEntity;
 use BiberLtd\Bundle\SiteManagementBundle\Entity as SiteManagementEntity;
-
-/** Helper Models */
 use BiberLtd\Bundle\FileManagementBundle\Services as FMMService;
 use BiberLtd\Bundle\MultiLanguageSupportBundle\Services as MLSService;
 use BiberLtd\Bundle\SiteManagementBundle\Services as SMMService;
 use BiberLtd\Bundle\MemberManagementBundle\Services as MMMService;
-
-/** Core Service*/
 use BiberLtd\Bundle\CoreBundle\Services as CoreServices;
 use BiberLtd\Bundle\CoreBundle\Exceptions as CoreExceptions;
-use MyProject\Proxies\__CG__\stdClass;
 
 class LogModel extends CoreModel {
 	/**
-	 * @name            __construct()
-	 *                  Constructor.
+	 * LogModel constructor.
 	 *
-	 * @author          Can Berkol
-	 *
-	 * @since           1.0.0
-	 * @version         1.0.3
-	 *
-	 * @param           object          $kernel
-	 * @param           string          $dbConnection  Database connection key as set in app/config.yml
-	 * @param           string          $orm            ORM that is used.
+	 * @param object $kernel
+	 * @param string $dbConnection
+	 * @param string $orm
 	 */
-	public function __construct($kernel, $dbConnection = 'default', $orm = 'doctrine'){
+	public function __construct($kernel, \string $dbConnection = 'default', \string $orm = 'doctrine'){
 		parent::__construct($kernel, $dbConnection, $orm);
 
 		$this->entity = array(
@@ -60,35 +44,22 @@ class LogModel extends CoreModel {
 			'm' 	=> array('name' => 'MemberManagementBundle:Member', 'alias' => 'm'),
 		);
 	}
+
 	/**
-	 * @name            __destruct()
-	 *
-	 * @author          Can Berkol
-	 *
-	 * @since           1.0.0
-	 * @version         1.0.0
-	 *
+	 * Destructor
 	 */
 	public function __destruct(){
 		foreach($this as $property => $value) {
 			$this->$property = null;
 		}
 	}
+
 	/**
-	 * @name 			countLogs()
-	 *  				Get the total count of logs.
+	 * @param array|null $filter
 	 *
-	 * @since			1.0.1
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $filter
-	 *
-	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function countLogs($filter = null) {
+	public function countLogs(array $filter = null) {
 		$timeStamp = time();
 		$wStr = '';
 
@@ -107,37 +78,22 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse($result, 1, 1, null, false, 'S:D:004', 'Entries have been counted successfully.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			deleteAction()
+	 * @param mixed $action
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 *
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->deleteActions()
-	 *
-	 * @param           mixed           $action
-	 *
-	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteAction($action){
 		return $this->deleteActions(array($action));
 	}
+
 	/**
-	 * @name 			deleteActions()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function deleteActions($collection) {
+	public function deleteActions(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -164,36 +120,22 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			deleteLog()
+	 * @param mixed $log
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->deleteLogs()
-	 *
-	 * @param           mixed           $log
-	 *
-	 * @return          mixed           $response
+	 * @return array
 	 */
 	public function deleteLog($log){
 		return $this->deleteLogs(array($log));
 	}
+
 	/**
-	 * @name 			deleteLogs()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function deleteLogs($collection) {
+	public function deleteLogs(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -220,36 +162,22 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			deleteSession()
+	 * @param mixed $session
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->deleteSessions()
-	 *
-	 * @param           mixed           $session
-	 *
-	 * @return          mixed           $response
+	 * @return array
 	 */
 	public function deleteSession($session){
 		return $this->deleteSessions(array($session));
 	}
+
 	/**
-	 * @name 			deleteSessions()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function deleteSessions($collection){
+	public function deleteSessions(array $collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -276,21 +204,14 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			doesActionExist()
+	 * @param mixed $action
+	 * @param bool $bypass
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->getAction()
-	 *
-	 * @param           mixed           $action         id, code
-	 * @param           bool            $bypass         If set to true does not return response but only the result.
-	 *
-	 * @return          mixed           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool|mixed
 	 */
-	public function doesActionExist($action, $bypass = false) {
+	public function doesActionExist($action, \bool $bypass = false) {
 		$timeStamp = time();
 		$exist = false;
 
@@ -311,21 +232,14 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			doesSessionExist()
+	 * @param mixed $session
+	 * @param bool $bypass
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->getAction()
-	 *
-	 * @param           mixed           $session
-	 * @param           bool            $bypass
-	 *
-	 * @return          mixed           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool|mixed
 	 */
-	public function doesSessionExist($session, $bypass = false) {
+	public function doesSessionExist($session, \bool $bypass = false) {
 		$timeStamp = time();
 		$exist = false;
 
@@ -348,18 +262,11 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			getAction()
+	 * @param mixed $action
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           mixed           $action
-	 *
-	 * @return          mixed           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getAction($action) {
 		$timeStamp = time();
@@ -381,16 +288,11 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			getLog()
+	 * @param mixed $log
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @param           mixed			$log
-	 *
-	 * @return          mixed           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getLog($log) {
 		$timeStamp = time();
@@ -409,18 +311,11 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			getSession()
+	 * @param mixed $session
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           mixed           $session
-	 *
-	 * @return          mixed           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getSession($session) {
 		$timeStamp = time();
@@ -442,36 +337,22 @@ class LogModel extends CoreModel {
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertAction()
+	 * @param mixed $action
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->insertActions()
-	 *
-	 * @param           mixed           $action               Entity or post
-	 *
-	 * @return          array           $response
+	 * @return array
 	 */
 	public function insertAction($action){
 		return $this->insertActions(array($action));
 	}
+
 	/**
-	 * @name 			insertActionLocalizations()
+	 * @param array $collection
 	 *
-	 * @since			1.0.4
-	 * @version         1.0.4
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection      Collection of Site entities or array of site detais array.
-	 *
-	 * @return          BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertActionLocalizations($collection) {
+	public function insertActionLocalizations(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -521,20 +402,13 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertActions()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertActions($collection)	{
+	public function insertActions(array $collection)	{
 		$timeStamp = time();
 		/** Parameter must be an array */
 		if (!is_array($collection)) {
@@ -608,36 +482,22 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertLog()
+	 * @param mixed $log
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->insertLogs()
-	 *
-	 * @param           mixed           $log               Entity or post
-	 *
-	 * @return          array           $response
+	 * @return array
 	 */
 	public function insertLog($log){
 		return $this->insertLogs(array($log));
 	}
+
 	/**
-	 * @name 			insertLogs()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertLogs($collection) {
+	public function insertLogs(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -694,36 +554,22 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertSession()
+	 * @param mixed $session
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->insertSessions()
-	 *
-	 * @param           mixed           $session               Entity or post
-	 *
-	 * @return          array           $response
+	 * @return array
 	 */
 	public function insertSession($session){
 		return $this->insertSessions(array($session));
 	}
+
 	/**
-	 * @name 			insertSessions()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertSessions($collection) {
+	public function insertSessions(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -774,22 +620,15 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			listActions()
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listActions($filter = null, $sortOrder = null, $limit = null){
+	public function listActions(array $filter = null, array $sortOrder = null, array $limit = null){
 		$timeStamp = time();
 		if(!is_array($sortOrder) && !is_null($sortOrder)){
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
@@ -847,59 +686,38 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			listRecentLogs()
+	 * @param \nteger $count
+	 * @param array   $filter
 	 *
-	 * @since			1.0.7
-	 * @version         1.0.7
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->listLogs()
-	 *
-	 * @param           integer         $count
-	 * @param           array           $filter
-	 *
-	 * @return          array           $response
+	 * @return array
 	 */
-	public function listRecentLogs($count, $filter = array()){
+	public function listRecentLogs(\nteger $count, array $filter = array()){
 		return $this->listLogs($filter, array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
 	}
+
 	/**
-	 * @name 			listRecentLogsOfMember()
+	 * @param int   $count
+	 * @param mixed $member
+	 * @param array $filter
+	 * @param array $sortOrder
+	 * @param array $limit
 	 *
-	 * @since			1.0.8
-	 * @version         1.0.8
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->listLogs()
-	 *
-	 * @param           integer         $count
-	 * @param           mixed           $member
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          array           $response
+	 * @return array
 	 */
-	public function listRecentLogsOfMember($count, $member, $filter = array(), $sortOrder = array(), $limit = array()){
-		return $this->listLogsOfMember($member, array(), array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
+	public function listRecentLogsOfMember(\integer $count, $member, array $filter = [], array $sortOrder = [], $limit = []){
+		return $this->listLogsOfMember($member, [], array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
 	}
+
 	/**
-	 * @name 			listRecentLogsOfSite()
+	 * @param int   $count
+	 * @param mixed $site
+	 * @param array $filter
 	 *
-	 * @since			1.0.7
-	 * @version         1.0.7
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->listLogs()
-	 *
-	 * @param           integer         $count
-	 * @param           mixed           $site
-	 * @param           array           $filter
-	 *
-	 * @return          array           $response
+	 * @return array|\BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listRecentLogsOfSite($count, $site, $filter = array()){
+	public function listRecentLogsOfSite(\integer $count, $site, array $filter = []){
 		$timeStamp = time();
 		$sModel = new SMMService\SiteManagementModel($this->kernel, $this->dbConnection, $this->orm);
 		$response = $sModel->getSite($site);
@@ -920,22 +738,15 @@ class LogModel extends CoreModel {
 		$response->stats->execution->end = $timeStamp;
 		return $response;
 	}
+
 	/**
-	 * @name 			listLogs()
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listLogs($filter = null, $sortOrder = null, $limit = null){
+	public function listLogs(array $filter = null, array $sortOrder = null, array $limit = null){
 		$timeStamp = time();
 		if(!is_array($sortOrder) && !is_null($sortOrder)){
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
@@ -992,23 +803,16 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			listLogsOfMember()
+	 * @param mixed $member
+	 * @param array $filter
+	 * @param array $sortOrder
+	 * @param array $limit
 	 *
-	 * @since			1.0.8
-	 * @version         1.0.8
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->listLogs()
-	 *
-	 * @param           mixed           $member
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|mixed
 	 */
-	public function listLogsOfMember($member, $filter = array(), $sortOrder = array(), $limit = array()){
+	public function listLogsOfMember($member, array $filter = array(), array $sortOrder = array(), array $limit = array()){
 		$timeStamp = time();
 		$mModel = new MMMService\MemberManagementModel($this->kernel, $this->dbConnection, $this->orm);
 		$response = $mModel->getMember($member);
@@ -1082,23 +886,16 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			listLoggedActionsAdded()
+	 * @param \DateTime  $date
+	 * @param string     $eq
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.2
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @uses            $this->listLogs()
-	 *
-	 * @param           mixed 			$date
-	 * @param           string 			$eq 		after, before, between, on
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listLoggedActionsAdded($date, $eq, $sortOrder = null, $limit = null) {
+	public function listLoggedActionsAdded(\DateTime $date, \string $eq, array$sortOrder = null, array $limit = null) {
 		$timeStamp = time();
 		$eqOpts = array('after', 'before', 'between', 'on');
 		if (!$date instanceof \DateTime && !is_array($date)) {
@@ -1152,43 +949,27 @@ class LogModel extends CoreModel {
 		$response->stats->execution->end = time();
 		return $response;
 	}
+
 	/**
-	 * @name 			listLoggedActionsAddedBetween()
+	 * @param \DateTime  $startDate
+	 * @param \DateTime  $endDate
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.2
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           \DateTime       $startDate
-	 * @param           \DateTime       $endDate
-	 *
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listLoggedActionsAddedBetween(\DateTime $startDate, \DateTime $endDate, $sortOrder = null, $limit = null){
+	public function listLoggedActionsAddedBetween(\DateTime $startDate, \DateTime $endDate, array $sortOrder = null, array $limit = null){
 		return $this->listLoggedActionsAdded(array($startDate, $endDate), 'between', $sortOrder, $limit);
 	}
+
 	/**
-	 * @name 			listSessions()
-	 *  				List sessions from database based on a variety of conditions.
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.4
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listSessions($filter = null, $sortOrder = null, $limit = null, $query_str = null){
+	public function listSessions(array $filter = null, array $sortOrder = null, array $limit = null){
 		$timeStamp = time();
 		if(!is_array($sortOrder) && !is_null($sortOrder)){
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
@@ -1235,36 +1016,22 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			updateAction()
+	 * @param mixed $action
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->updateActions()
-	 *
-	 * @param           mixed           $action
-	 *
-	 * @return          mixed           $response
+	 * @return array
 	 */
 	public function updateAction($action){
 		return $this->updateActions(array($action));
 	}
+
 	/**
-	 * @name 			updateActions()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function updateActions($collection){
+	public function updateActions(array $collection){
 		$timeStamp = time();
 		/** Parameter must be an array */
 		if (!is_array($collection)) {
@@ -1354,37 +1121,22 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			updateLog()
+	 * @param mixed $log
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->updateLogs()
-	 *
-	 * @param           mixed           $log
-	 *
-	 * @return          mixed           $response
+	 * @return array
 	 */
 	public function updateLog($log){
 		return $this->updateLogs(array($log));
 	}
+
 	/**
-	 * @name 			updateLogs()
-	 *  				Updates one or more log details in database.
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function updateLogs($collection){
+	public function updateLogs(array $collection){
 		$timeStamp = time();
 		/** Parameter must be an array */
 		if (!is_array($collection)) {
@@ -1453,36 +1205,22 @@ class LogModel extends CoreModel {
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			updateSession(
+	 * @param mixed $session
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->updateSessions()
-	 *
-	 * @param           mixed           $session
-	 *
-	 * @return          mixed           $response
+	 * @return array
 	 */
 	public function updateSession($session){
 		return $this->updateSessions(array($session));
 	}
+
 	/**
-	 * @name 			updateSessions()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.3
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          array           $response
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function updateSessions($collection){
+	public function updateSessions(array $collection){
 		$timeStamp = time();
 		/** Parameter must be an array */
 		if (!is_array($collection)) {
@@ -1553,47 +1291,3 @@ class LogModel extends CoreModel {
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
 }
-/**
- * Change Log
- * **************************************
- * v1.0.8                      13.05.2015
- * Can Berkol
- * **************************************
- * FR :: listLogsOfMember() implemented().
- * FR :: listRecentLogsOfMember() implemented().
- *
- * **************************************
- * v1.0.7                      09.05.2015
- * Can Berkol
- * **************************************
- * BF :: listLogs() was returning Action not Log entity. Fixed.
- * FR :: listRecentLogs() method implemented.
- * FR :: listRecentLogsOfSite() method implemented.
- *
- * **************************************
- * v1.0.6                      06.05.2015
- * Can Berkol
- * **************************************
- * BF :: exists replaced with exist.
- *
- * **************************************
- * v1.0.5                      25.05.2015
- * Can Berkol
- * **************************************
- * BF :: db_connection is replaced with dbConnection
- * BF :: ModelResponse namespace added to header.
- *
- * **************************************
- * v1.0.4                      03.05.1015
- * Can Berkol
- * **************************************
- * FR :: insertActionLocalizations() added.
- *
- * **************************************
- * v1.0.3                      02.05.1015
- * Can Berkol
- * **************************************
- * CR :: Made compatible with CoreBundle v3.3
- *
- */
-

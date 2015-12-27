@@ -1,18 +1,15 @@
 <?php
-namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
- * @name        ActionLocalization
- * @package		BiberLtd\Bundle\LogBundle
- *
  * @author		Can Berkol
- * @author		Murat Ünal
- * @version     1.0.1
- * @date        02.05.2015
+ * @author		Said İmamoğlu
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
+ * @date        28.12.2015
  */
+namespace BiberLtd\Bundle\LogBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
 /**
@@ -31,16 +28,19 @@ class ActionLocalization extends CoreEntity
 {
     /** 
      * @ORM\Column(type="string", length=155, nullable=false)
+     * @var string
      */
     private $name;
 
     /** 
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @var string
      */
     private $url_key;
 
     /** 
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
      */
     private $description;
 
@@ -48,6 +48,7 @@ class ActionLocalization extends CoreEntity
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Action", inversedBy="localizations")
      * @ORM\JoinColumn(name="action", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @ORM\Id
+     * @var \BiberLtd\Bundle\LogBundle\Entity\Action
      */
     private $action;
 
@@ -55,24 +56,16 @@ class ActionLocalization extends CoreEntity
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language")
      * @ORM\JoinColumn(name="language", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @ORM\Id
+     * @var \BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language
      */
     private $language;
 
-    /**
-     * @name            setAction ()
+	/**
+	 * @param \BiberLtd\Bundle\LogBundle\Entity\Action $action
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $action
-     *
-     * @return          object                $this
-     */
-    public function setAction($action) {
+	 * @return $this
+	 */
+    public function setAction(\BiberLtd\Bundle\LogBundle\Entity\Action $action) {
         if(!$this->setModified('action', $action)->isModified()) {
             return $this;
         }
@@ -80,35 +73,19 @@ class ActionLocalization extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getAction ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->action
-     */
+	/**
+	 * @return \BiberLtd\Bundle\LogBundle\Entity\Action
+	 */
     public function getAction() {
         return $this->action;
     }
 
-    /**
-     * @name            setDescription ()
+	/**
+	 * @param string $description
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $description
-     *
-     * @return          object                $this
-     */
-    public function setDescription($description) {
+	 * @return $this
+	 */
+    public function setDescription(\string $description) {
         if(!$this->setModified('description', $description)->isModified()) {
             return $this;
         }
@@ -116,35 +93,19 @@ class ActionLocalization extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getDescription ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->description
-     */
+	/**
+	 * @return string
+	 */
     public function getDescription() {
         return $this->description;
     }
 
-    /**
-     * @name            setLanguage ()
+	/**
+	 * @param \BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language $language
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $language
-     *
-     * @return          object                $this
-     */
-    public function setLanguage($language) {
+	 * @return $this
+	 */
+    public function setLanguage(\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language $language) {
         if(!$this->setModified('language', $language)->isModified()) {
             return $this;
         }
@@ -152,35 +113,19 @@ class ActionLocalization extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getLanguage ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->language
-     */
+	/**
+	 * @return \BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language
+	 */
     public function getLanguage() {
         return $this->language;
     }
 
-    /**
-     * @name            setName ()
+	/**
+	 * @param string $name
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $name
-     *
-     * @return          object                $this
-     */
-    public function setName($name) {
+	 * @return $this
+	 */
+    public function setName(\string $name) {
         if(!$this->setModified('name', $name)->isModified()) {
             return $this;
         }
@@ -188,35 +133,19 @@ class ActionLocalization extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getName ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->name
-     */
+	/**
+	 * @return string
+	 */
     public function getName() {
         return $this->name;
     }
 
-    /**
-     * @name            setUrlKey ()
+	/**
+	 * @param string $url_key
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $url_key
-     *
-     * @return          object                $this
-     */
-    public function setUrlKey($url_key) {
+	 * @return $this
+	 */
+    public function setUrlKey(\string $url_key) {
         if(!$this->setModified('url_key', $url_key)->isModified()) {
             return $this;
         }
@@ -224,42 +153,10 @@ class ActionLocalization extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getUrlKey ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->url_key
-     */
+	/**
+	 * @return string
+	 */
     public function getUrlKey() {
         return $this->url_key;
     }
 }
-/**
- * Change Log:
- * **************************************
- * v1.0.1                      02.05.2015
- * Can Berkol
- * **************************************
- * CR :: ORM updates.
- *
- * **************************************
- * v1.0.0                     Murat Ünal
- * 10.10.2013
- * **************************************
- * A getAction()
- * A getDescription()
- * A getLanguage()
- * A getName()
- * A getUrlKey()
- *
- * A setAction()
- * A setDescription()
- * A setLanguage()
- * A setName()
- * A setUrlKey()
- *
- */

@@ -1,17 +1,12 @@
 <?php
 /**
- * @name        InvalidActionException
- * @package		BiberLtd\Bundle\LogBundle
- *
  * @author		Can Berkol
- * @version     1.0.0
- * @date        01.08.2013
+ * @author		Said İmamoğlu
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @description Exception to handle cURL connection problems.
- *
+ * @date        28.12.2015
  */
 namespace BiberLtd\Bundle\LogBundle\Exceptions;
 
@@ -26,12 +21,3 @@ class LoginException extends Services\ExceptionAdapter {
             $previous);
      }
 }
-/**
- * Change Log:
- * **************************************
- * v1.0.0                      Can Berkol
- * 01.08.2013
- * **************************************
- * A __construct()
- *
- */

@@ -1,20 +1,14 @@
 <?php
-namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
- * @name        log
- * @package		BiberLtd\Bundle\CoreBundle\AccessManagementBundle
- *
  * @author		Can Berkol
- * @author		Murat Ünal
- * @version     1.0.2
- * @date        02.05.2015
+ * @author		Said İmamoğlu
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @description Model / Entity class.
- *
+ * @date        28.12.2015
  */
+namespace BiberLtd\Bundle\LogBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
 /**
@@ -35,92 +29,80 @@ class Log extends CoreEntity
      * @ORM\Id
      * @ORM\Column(type="integer", length=20)
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /** 
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @var string
      */
     private $ip_v4;
 
     /** 
      * @ORM\Column(type="string", length=39, nullable=true)
+     * @var string
      */
     private $ip_v6;
 
     /** 
      * @ORM\Column(type="text", nullable=false)
+     * @var string
      */
     private $url;
 
     /** 
      * @ORM\Column(type="text", nullable=true)
+     * @var string
      */
     private $agent;
 
     /** 
      * @ORM\Column(type="text", nullable=true)
+     * @var string
      */
     private $details;
 
     /** 
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
     public $date_action;
 
     /** 
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Action", inversedBy="logs")
      * @ORM\JoinColumn(name="action", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\LogBundle\Entity\Action
      */
     private $action;
 
     /** 
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Session", inversedBy="logs")
      * @ORM\JoinColumn(name="session", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @var  \BiberLtd\Bundle\LogBundle\Entity\Session
      */
     private $session;
 
     /** 
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\SiteManagementBundle\Entity\Site")
      * @ORM\JoinColumn(name="site", referencedColumnName="id", onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\SiteManagementBundle\Entity\Site
      */
     private $site;
 
-    /******************************************************************
-     * PUBLIC SET AND GET FUNCTIONS                                   *
-     ******************************************************************/
-
-    /**
-     * @name            getId()
-     *  				Gets $id property.
-     * .
-     * @author          Murat Ünal
-     * @since			1.0.0
-     * @version         1.0.0
-     *
-     * @return          string          $this->id
-     */
+	/**
+	 * @return mixed
+	 */
     public function getId(){
         return $this->id;
     }
 
-    /**
-     * @name                  setAction ()
-     *                                  Sets the action property.
-     *                                  Updates the data only if stored value and value to be set are different.
-     *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $action
-     *
-     * @return          object                $this
-     */
-    public function setAction($action) {
+	/**
+	 * @param \BiberLtd\Bundle\LogBundle\Entity\Action $action
+	 *
+	 * @return $this
+	 */
+    public function setAction(\BiberLtd\Bundle\LogBundle\Entity\Action $action) {
         if(!$this->setModified('action', $action)->isModified()) {
             return $this;
         }
@@ -128,35 +110,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getAction ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->action
-     */
+	/**
+	 * @return \BiberLtd\Bundle\LogBundle\Entity\Action
+	 */
     public function getAction() {
         return $this->action;
     }
 
-    /**
-     * @name            setAgent ()
+	/**
+	 * @param string $agent
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $agent
-     *
-     * @return          object                $this
-     */
-    public function setAgent($agent) {
+	 * @return $this
+	 */
+    public function setAgent(\string $agent) {
         if(!$this->setModified('agent', $agent)->isModified()) {
             return $this;
         }
@@ -164,35 +130,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getAgent ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->agent
-     */
+	/**
+	 * @return string
+	 */
     public function getAgent() {
         return $this->agent;
     }
 
-    /**
-     * @name            setDateAction ()
+	/**
+	 * @param \DateTime $date_action
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $date_action
-     *
-     * @return          object                $this
-     */
-    public function setDateAction($date_action) {
+	 * @return $this
+	 */
+    public function setDateAction(\DateTime $date_action) {
         if(!$this->setModified('date_action', $date_action)->isModified()) {
             return $this;
         }
@@ -200,35 +150,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getDateAction ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->date_action
-     */
+	/**
+	 * @return \DateTime
+	 */
     public function getDateAction() {
         return $this->date_action;
     }
 
-    /**
-     * @name            setDetails ()
+	/**
+	 * @param string $details
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $details
-     *
-     * @return          object                $this
-     */
-    public function setDetails($details) {
+	 * @return $this
+	 */
+    public function setDetails(\string $details) {
         if(!$this->setModified('details', $details)->isModified()) {
             return $this;
         }
@@ -236,35 +170,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getDetails ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->details
-     */
+	/**
+	 * @return string
+	 */
     public function getDetails() {
         return $this->details;
     }
 
-    /**
-     * @name            setIpV4()
+	/**
+	 * @param string $ip_v4
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $ip_v4
-     *
-     * @return          object                $this
-     */
-    public function setIpV4($ip_v4) {
+	 * @return $this
+	 */
+    public function setIpV4(\string $ip_v4) {
         if(!$this->setModified('ip_v4', $ip_v4)->isModified()) {
             return $this;
         }
@@ -272,35 +190,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getIpV4()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->ip_v4
-     */
+	/**
+	 * @return string
+	 */
     public function getIpV4() {
         return $this->ip_v4;
     }
 
-    /**
-     * @name            setIpV6()
+	/**
+	 * @param string $ip_v6
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $ip_v6
-     *
-     * @return          object                $this
-     */
-    public function setIpV6($ip_v6) {
+	 * @return $this
+	 */
+    public function setIpV6(\string $ip_v6) {
         if(!$this->setModified('ip_v6', $ip_v6)->isModified()) {
             return $this;
         }
@@ -308,35 +210,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getIpV6()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->ip_v6
-     */
+	/**
+	 * @return string
+	 */
     public function getIpV6() {
         return $this->ip_v6;
     }
 
-    /**
-     * @name            setSession ()
+	/**
+	 * @param \BiberLtd\Bundle\LogBundle\Entity\Session $session
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $session
-     *
-     * @return          object                $this
-     */
-    public function setSession($session) {
+	 * @return $this
+	 */
+    public function setSession(\BiberLtd\Bundle\LogBundle\Entity\Session $session) {
         if(!$this->setModified('session', $session)->isModified()) {
             return $this;
         }
@@ -344,35 +230,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getSession ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->session
-     */
+	/**
+	 * @return \BiberLtd\Bundle\LogBundle\Entity\Session
+	 */
     public function getSession() {
         return $this->session;
     }
 
-    /**
-     * @name            setSite ()
+	/**
+	 * @param \BiberLtd\Bundle\SiteManagementBundle\Entity\Site $site
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $site
-     *
-     * @return          object                $this
-     */
-    public function setSite($site) {
+	 * @return $this
+	 */
+    public function setSite(\BiberLtd\Bundle\SiteManagementBundle\Entity\Site $site) {
         if(!$this->setModified('site', $site)->isModified()) {
             return $this;
         }
@@ -380,35 +250,19 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getSite ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->site
-     */
+	/**
+	 * @return \BiberLtd\Bundle\SiteManagementBundle\Entity\Site
+	 */
     public function getSite() {
         return $this->site;
     }
 
-    /**
-     * @name            setUrl ()
+	/**
+	 * @param string $url
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $url
-     *
-     * @return          object                $this
-     */
-    public function setUrl($url) {
+	 * @return $this
+	 */
+    public function setUrl(\string $url) {
         if(!$this->setModified('url', $url)->isModified()) {
             return $this;
         }
@@ -416,51 +270,10 @@ class Log extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getUrl ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->url
-     */
+	/**
+	 * @return string
+	 */
     public function getUrl() {
         return $this->url;
     }
 }
-/**
- * Change Log:
- * **************************************
- * v1.0.2                      02.05.2015
- * Can Berkol
- * **************************************
- * CR :: ORM updates.
- *
- * **************************************
- * v1.0.1                      Murat Ünal
- * 19.07.2013
- * **************************************
- * A getAction()
- * A setAction()
- * A getAgent()
- * A setAgent()
- * A getDateAction()
- * A setDateAction()
- * A getDetails()
- * A setDetails()
- * A getId()
- * A setId()
- * A getIpV4()
- * A setIpV4()
- * A getIpV6()
- * A setIpV6()
- * A getSession()
- * A setSession()
- * A getSite()
- * A setSite()
- * A getUrl()
- * A setUrl()
- *
- */

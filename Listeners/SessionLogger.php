@@ -1,17 +1,13 @@
 <?php
 /**
- * @vendor      BiberLtd
- * @package		LogBundle
- * @subpackage	Services
- * @name	    SessionLogger
- *
  * @author		Can Berkol
+ * @author		Said İmamoğlu
  *
- * @version     1.0.1
- * @date        25.05.2015
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
+ * @date        10.12.2015
  */
-
 namespace BiberLtd\Bundle\LogBundle\Listeners;
 use BiberLtd\Bundle\CoreBundle\Core as Core;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,32 +19,21 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class SessionLogger extends Core{
 	public  $container;
 	public 	$timezone;
+
     /**
-     * @name            __construct()
-     *                  Constructor.
+     * SessionLogger constructor.
      *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @param           object      $container
-     * @param           object      $kernel
-     * @param           array       $db_options
+     * @param       $container
+     * @param       $kernel
+     * @param array $db_options
      */
-    public function __construct($container, $kernel, $db_options = array('default', 'doctrine')){
+    public function __construct($container, $kernel, array $db_options = array('default', 'doctrine')){
         parent::__construct($kernel);
         $this->container = $container;
         $this->timezone = $kernel->getContainer()->getParameter('app_timezone');
     }
+
     /**
-     * @name            __destruct()
-     *                  Destructor.
-     *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
      *
      */
     public function __destruct(){
@@ -56,37 +41,12 @@ class SessionLogger extends Core{
             $this->$property = null;
         }
     }
+
     /**
-     * @name 			onKernelRequest()
-     *  				Called onKernelRequest event and registers a new session if necessary.
-     *
-     * @author          Can Berkol
-     *
-     * @use             BiberLtd\Bundle\CoreBundleServices\SessionManager
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     *
-     * @param 			GetResponseEvent 	        $e
-     *
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $e
      */
     public function onKernelRequest(GetResponseEvent $e){
         $sm = $this->container->get('session_manager');
         $sm->register();
     }
 }
-/**
- * Change Log
- * ****************************************
- * v1.0.1						25.05.2015
- * Can Berkol
- * ****************************************
- * BF :: Property access levels fixed to public.
- *
- * ****************************************
- * v1.0.0						26.04.2015
- * TW #
- * Can Berkol
- * ****************************************
- * - Class moved to LogBundle from CoreBundle.
- */

@@ -1,20 +1,15 @@
 <?php
-namespace BiberLtd\Bundle\LogBundle\Entity;
 /**
- * @name        session
- * @package		BiberLtd\Bundle\CoreBundle\AccessManagementBundle
- *
  * @author		Can Berkol
- * @author		Murat Ünal
- * @version     1.0.4
- * @date        25.05.2015
+ * @author		Said İmamoğlu
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @description Model / Entity class.
- *
+ * @date        28.12.2015
  */
+namespace BiberLtd\Bundle\LogBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
 /**
@@ -37,92 +32,85 @@ class Session extends CoreEntity
      * @ORM\Id
      * @ORM\Column(type="integer", length=20)
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
     public $date_created;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
     public $date_access;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
     public $date_login;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
     public $date_logout;
 
     /**
      * @ORM\Column(type="string", length=155, nullable=true)
+     * @var string
      */
     private $username;
 
     /**
      * @ORM\Column(type="text", nullable=false)
+     * @var string
      */
     private $data;
 
     /**
      * @ORM\Column(type="text", nullable=false)
+     * @var string
      */
     private $session_id;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MemberManagementBundle\Entity\Member")
 	 * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false)
+	 * @var \BiberLtd\Bundle\MemberManagementBundle\Entity\Member
 	 */
     private $member;
 
     /**
      * @ORM\OneToMany(targetEntity="BiberLtd\Bundle\LogBundle\Entity\Log", mappedBy="session")
+     * @var array
      */
     private $logs;
 
     /**
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\SiteManagementBundle\Entity\Site")
      * @ORM\JoinColumn(name="site", referencedColumnName="id", onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\SiteManagementBundle\Entity\Site
      */
     private $site;
-    /******************************************************************
-     * PUBLIC SET AND GET FUNCTIONS                                   *
-     ******************************************************************/
 
-    /**
-     * @name            getId()
-	 *
-     * @author          Murat Ünal
-     * @since			1.0.0
-     * @version         1.0.0
-     *
-     * @return          string          $this->id
-     */
+	/**
+	 * @return mixed
+	 */
     public function getId(){
         return $this->id;
     }
 
-    /**
-     * @name            setData ()
+	/**
+	 * @param string $data
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $data
-     *
-     * @return          object                $this
-     */
-    public function setData($data) {
+	 * @return $this
+	 */
+    public function setData(\string $data) {
         if(!$this->setModified('data', $data)->isModified()) {
             return $this;
         }
@@ -130,35 +118,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getData ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->data
-     */
+	/**
+	 * @return string
+	 */
     public function getData() {
         return $this->data;
     }
 
-    /**
-     * @name            setDateAccess ()
+	/**
+	 * @param \DateTime $date_access
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $date_access
-     *
-     * @return          object                $this
-     */
-    public function setDateAccess($date_access) {
+	 * @return $this
+	 */
+    public function setDateAccess(\DateTime $date_access) {
         if(!$this->setModified('date_access', $date_access)->isModified()) {
             return $this;
         }
@@ -166,35 +138,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getDateAccess ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->date_access
-     */
+	/**
+	 * @return \DateTime
+	 */
     public function getDateAccess() {
         return $this->date_access;
     }
 
-    /**
-     * @name            setDateCreated ()
+	/**
+	 * @param \DateTime $date_created
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $date_created
-     *
-     * @return          object                $this
-     */
-    public function setDateCreated($date_created) {
+	 * @return $this
+	 */
+    public function setDateCreated(\DateTime $date_created) {
         if(!$this->setModified('date_created', $date_created)->isModified()) {
             return $this;
         }
@@ -202,35 +158,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getDateCreated ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->date_created
-     */
+	/**
+	 * @return \DateTime
+	 */
     public function getDateCreated() {
         return $this->date_created;
     }
 
-    /**
-     * @name            setDateLogin ()
+	/**
+	 * @param \DateTime $date_login
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $date_login
-     *
-     * @return          object                $this
-     */
-    public function setDateLogin($date_login) {
+	 * @return $this
+	 */
+    public function setDateLogin(\DateTime $date_login) {
         if(!$this->setModified('date_login', $date_login)->isModified()) {
             return $this;
         }
@@ -238,35 +178,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getDateLogin ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->date_login
-     */
+	/**
+	 * @return \DateTime
+	 */
     public function getDateLogin() {
         return $this->date_login;
     }
 
-    /**
-     * @name            setDateLogout ()
+	/**
+	 * @param \DateTime $date_logout
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $date_logout
-     *
-     * @return          object                $this
-     */
-    public function setDateLogout($date_logout) {
+	 * @return $this
+	 */
+    public function setDateLogout(\DateTime $date_logout) {
         if(!$this->setModified('date_logout', $date_logout)->isModified()) {
             return $this;
         }
@@ -274,35 +198,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getDateLogout ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->date_logout
-     */
+	/**
+	 * @return \DateTime
+	 */
     public function getDateLogout() {
         return $this->date_logout;
     }
 
-    /**
-     * @name            setLogs ()
+	/**
+	 * @param array $logs
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $logs
-     *
-     * @return          object                $this
-     */
-    public function setLogs($logs) {
+	 * @return $this
+	 */
+    public function setLogs(array $logs) {
         if(!$this->setModified('logs', $logs)->isModified()) {
             return $this;
         }
@@ -310,35 +218,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getLogs ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->logs
-     */
+	/**
+	 * @return array
+	 */
     public function getLogs() {
         return $this->logs;
     }
 
-    /**
-     * @name            setMember ()
+	/**
+	 * @param \BiberLtd\Bundle\MemberManagementBundle\Entity\Member $member
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $member
-     *
-     * @return          object                $this
-     */
-    public function setMember($member) {
+	 * @return $this
+	 */
+    public function setMember(\BiberLtd\Bundle\MemberManagementBundle\Entity\Member $member) {
         if(!$this->setModified('member', $member)->isModified()) {
             return $this;
         }
@@ -346,35 +238,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getMember ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->member
-     */
+	/**
+	 * @return \BiberLtd\Bundle\MemberManagementBundle\Entity\Member
+	 */
     public function getMember() {
         return $this->member;
     }
 
-    /**
-     * @name            setSessionId()
+	/**
+	 * @param string $session_id
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $session_id
-     *
-     * @return          object                $this
-     */
-    public function setSessionId($session_id) {
+	 * @return $this
+	 */
+    public function setSessionId(\string $session_id) {
         if(!$this->setModified('session_id', $session_id)->isModified()) {
             return $this;
         }
@@ -382,35 +258,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getSessionId()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->session_id
-     */
+	/**
+	 * @return string
+	 */
     public function getSessionId() {
         return $this->session_id;
     }
 
-    /**
-     * @name            setSite ()
+	/**
+	 * @param \BiberLtd\Bundle\SiteManagementBundle\Entity\Site $site
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $site
-     *
-     * @return          object                $this
-     */
-    public function setSite($site) {
+	 * @return $this
+	 */
+    public function setSite(\BiberLtd\Bundle\SiteManagementBundle\Entity\Site $site) {
         if(!$this->setModified('site', $site)->isModified()) {
             return $this;
         }
@@ -418,35 +278,19 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getSite ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->site
-     */
+	/**
+	 * @return \BiberLtd\Bundle\SiteManagementBundle\Entity\Site
+	 */
     public function getSite() {
         return $this->site;
     }
 
-    /**
-     * @name            setUsername ()
+	/**
+	 * @param string $username
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @use             $this->setModified()
-     *
-     * @param           mixed $username
-     *
-     * @return          object                $this
-     */
-    public function setUsername($username) {
+	 * @return $this
+	 */
+    public function setUsername(\string $username) {
         if(!$this->setModified('username', $username)->isModified()) {
             return $this;
         }
@@ -454,59 +298,10 @@ class Session extends CoreEntity
 		return $this;
     }
 
-    /**
-     * @name            getUsername ()
-	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     * @return          mixed           $this->username
-     */
+	/**
+	 * @return string
+	 */
     public function getUsername() {
         return $this->username;
     }
 }
-/**
- * Change Log:
- * **************************************
- * v1.0.4                      25.05.2015
- * Can Berkol
- * **************************************
- * BF :: ORM annotations fixed.
- *
- * **************************************
- * v1.0.3                      02.05.2015
- * Can Berkol
- * **************************************
- * CR :: ORM Updates
- *
- * **************************************
- * v1.0.2                      Murat Ünal
- * 10.10.2013
- * **************************************
- * A get_date()
- * A getDateAccess()
- * A getDateCreated()
- * A getDateLogin()
- * A getDateLogout()
- * A getId()
- * A getLogs()
- * A getMember()
- * A getSessionId()
- * A getSite()
- * A setUsername()
- *
- * A set_date()
- * A setDateAccess()
- * A setDateCreated()
- * A setDateLogin()
- * A setDateLogout()
- * A set_date_logs()
- * A setMember()
- * A setSessionId()
- * A setSite()
- * A setUsername()
- *
- */
