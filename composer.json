@@ -26,10 +26,5 @@
 
     },
     "minimum-stability": "dev",
-    "extra" : {
-	"branch-alias" : {
-		"dev-master" : "3.0.x-dev"
-		}
-	},
     "target-dir": "BiberLtd/Bundle/LogBundle"
 }
