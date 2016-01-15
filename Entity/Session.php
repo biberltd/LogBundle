@@ -110,7 +110,7 @@ class Session extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setData(\string $data) {
+    public function setData(string $data) {
         if(!$this->setModified('data', $data)->isModified()) {
             return $this;
         }
@@ -250,7 +250,7 @@ class Session extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setSessionId(\string $session_id) {
+    public function setSessionId(string $session_id) {
         if(!$this->setModified('session_id', $session_id)->isModified()) {
             return $this;
         }
@@ -290,7 +290,7 @@ class Session extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setUsername(\string $username) {
+    public function setUsername(string $username) {
         if(!$this->setModified('username', $username)->isModified()) {
             return $this;
         }

@@ -122,7 +122,7 @@ class Log extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setAgent(\string $agent) {
+    public function setAgent(string $agent) {
         if(!$this->setModified('agent', $agent)->isModified()) {
             return $this;
         }
@@ -162,7 +162,7 @@ class Log extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setDetails(\string $details) {
+    public function setDetails(string $details) {
         if(!$this->setModified('details', $details)->isModified()) {
             return $this;
         }
@@ -182,7 +182,7 @@ class Log extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setIpV4(\string $ip_v4) {
+    public function setIpV4(string $ip_v4) {
         if(!$this->setModified('ip_v4', $ip_v4)->isModified()) {
             return $this;
         }
@@ -202,7 +202,7 @@ class Log extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setIpV6(\string $ip_v6) {
+    public function setIpV6(string $ip_v6) {
         if(!$this->setModified('ip_v6', $ip_v6)->isModified()) {
             return $this;
         }
@@ -262,7 +262,7 @@ class Log extends CoreEntity
 	 *
 	 * @return $this
 	 */
-    public function setUrl(\string $url) {
+    public function setUrl(string $url) {
         if(!$this->setModified('url', $url)->isModified()) {
             return $this;
         }

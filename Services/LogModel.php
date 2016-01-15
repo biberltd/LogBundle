@@ -3,10 +3,10 @@
  * @author		Can Berkol
  * @author		Said İmamoğlu
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2016
  * @license     GPLv3
  *
- * @date        28.12.2015
+ * @date        15.01.2016
  */
 namespace BiberLtd\Bundle\LogBundle\Services;
 
@@ -28,12 +28,12 @@ class LogModel extends CoreModel {
 	/**
 	 * LogModel constructor.
 	 *
-	 * @param object $kernel
-	 * @param string $dbConnection
-	 * @param string $orm
+	 * @param object      $kernel
+	 * @param string|null $dbConnection
+	 * @param string|null $orm
 	 */
-	public function __construct($kernel, \string $dbConnection = 'default', \string $orm = 'doctrine'){
-		parent::__construct($kernel, $dbConnection, $orm);
+	public function __construct($kernel, string $dbConnection = null, string $orm = null){
+		parent::__construct($kernel, $dbConnection ?? 'default', $orm ?? 'doctrine');
 
 		$this->entity = array(
 			'a'		=> array('name' => 'LogBundle:Action', 'alias' => 'a'),
@@ -60,7 +60,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function countLogs(array $filter = null) {
-		$timeStamp = time();
+		$timeStamp = microtime();
 		$wStr = '';
 
 		$qStr = 'SELECT COUNT('. $this->entity['l']['alias'].')'
@@ -76,7 +76,7 @@ class LogModel extends CoreModel {
 
 		$result = $q->getSingleScalarResult();
 
-		return new ModelResponse($result, 1, 1, null, false, 'S:D:004', 'Entries have been counted successfully.', $timeStamp, time());
+		return new ModelResponse($result, 1, 1, null, false, 'S:D:004', 'Entries have been counted successfully.', $timeStamp, microtime());
 	}
 
 	/**
@@ -94,10 +94,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteActions(array $collection) {
-		$timeStamp = time();
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countDeleted = 0;
 		foreach($collection as $entry){
 			if($entry instanceof BundleEntity\Action){
@@ -114,11 +111,11 @@ class LogModel extends CoreModel {
 			}
 		}
 		if($countDeleted < 0){
-			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, time());
+			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime());
 		}
 		$this->em->flush();
 
-		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -136,10 +133,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteLogs(array $collection) {
-		$timeStamp = time();
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countDeleted = 0;
 		foreach($collection as $entry){
 			if($entry instanceof BundleEntity\Log){
@@ -156,11 +150,11 @@ class LogModel extends CoreModel {
 			}
 		}
 		if($countDeleted < 0){
-			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, time());
+			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime());
 		}
 		$this->em->flush();
 
-		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -178,10 +172,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteSessions(array $collection){
-		$timeStamp = time();
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countDeleted = 0;
 		foreach($collection as $entry){
 			if($entry instanceof BundleEntity\Session){
@@ -198,21 +189,22 @@ class LogModel extends CoreModel {
 			}
 		}
 		if($countDeleted < 0){
-			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, time());
+			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime());
 		}
 		$this->em->flush();
 
-		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime());
 	}
 
 	/**
-	 * @param mixed $action
-	 * @param bool $bypass
+	 * @param           $action
+	 * @param bool|null $bypass
 	 *
-	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool|mixed
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool
 	 */
-	public function doesActionExist($action, \bool $bypass = false) {
-		$timeStamp = time();
+	public function doesActionExist($action, bool $bypass = null) {
+		$bypass = $bypass ?? false;
+		$timeStamp = microtime();
 		$exist = false;
 
 		$response = $this->getAction($action);
@@ -230,7 +222,7 @@ class LogModel extends CoreModel {
 		if ($bypass) {
 			return $exist;
 		}
-		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -239,8 +231,9 @@ class LogModel extends CoreModel {
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool|mixed
 	 */
-	public function doesSessionExist($session, \bool $bypass = false) {
-		$timeStamp = time();
+	public function doesSessionExist($session, bool $bypass = null) {
+		$timeStamp = microtime();
+		$bypass = $bypass ?? false;
 		$exist = false;
 
 		$response = $this->getSession($session);
@@ -260,7 +253,7 @@ class LogModel extends CoreModel {
 			return $exist;
 		}
 
-		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -269,9 +262,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getAction($action) {
-		$timeStamp = time();
+		$timeStamp = microtime();
 		if($action instanceof BundleEntity\Action){
-			return new ModelResponse($action, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+			return new ModelResponse($action, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 		}
 		$result = null;
 		switch($action){
@@ -283,10 +276,10 @@ class LogModel extends CoreModel {
 				break;
 		}
 		if(is_null($result)){
-			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, time());
+			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime());
 		}
 
-		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -295,9 +288,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getLog($log) {
-		$timeStamp = time();
+		$timeStamp = microtime();
 		if($log instanceof BundleEntity\Log){
-			return new ModelResponse($log, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+			return new ModelResponse($log, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 		}
 		$result = null;
 		switch($log){
@@ -306,10 +299,10 @@ class LogModel extends CoreModel {
 				break;
 		}
 		if(is_null($result)){
-			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, time());
+			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime());
 		}
 
-		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -318,9 +311,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getSession($session) {
-		$timeStamp = time();
+		$timeStamp = microtime();
 		if($session instanceof BundleEntity\Session){
-			return new ModelResponse($session, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+			return new ModelResponse($session, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 		}
 		$result = null;
 		switch($session){
@@ -332,10 +325,10 @@ class LogModel extends CoreModel {
 				break;
 		}
 		if(is_null($result)){
-			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, time());
+			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime());
 		}
 
-		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -353,12 +346,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertActionLocalizations(array $collection) {
-		$timeStamp = time();
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countInserts = 0;
-		$insertedItems = array();
+		$insertedItems = [];
 		foreach($collection as $data){
 			if($data instanceof BundleEntity\ActionLocalization){
 				$entity = $data;
@@ -398,9 +388,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -409,15 +399,12 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertActions(array $collection)	{
-		$timeStamp = time();
+		$timeStamp = microtime();
 		/** Parameter must be an array */
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
 		$countInserts = 0;
 		$countLocalizations = 0;
-		$insertedItems = array();
-		$localizations = array();
+		$insertedItems = [];
+		$localizations = [];
 		foreach ($collection as $data) {
 			if ($data instanceof BundleEntity\Action) {
 				$entity = $data;
@@ -478,9 +465,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -498,12 +485,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertLogs(array $collection) {
-		$timeStamp = time();
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countInserts = 0;
-		$insertedItems = array();
+		$insertedItems = [];
 		foreach($collection as $data){
 			if($data instanceof BundleEntity\Log){
 				$entity = $data;
@@ -550,9 +534,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -570,12 +554,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertSessions(array $collection) {
-		$timeStamp = time();
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countInserts = 0;
-		$insertedItems = array();
+		$insertedItems = [];
 		foreach($collection as $data){
 			if($data instanceof BundleEntity\Session){
 				$entity = $data;
@@ -616,9 +597,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -629,10 +610,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listActions(array $filter = null, array $sortOrder = null, array $limit = null){
-		$timeStamp = time();
-		if(!is_array($sortOrder) && !is_null($sortOrder)){
-			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
-		}
+		$timeStamp = microtime();
 		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '.$this->entity['al']['alias'].', '.$this->entity['a']['alias']
@@ -673,7 +651,7 @@ class LogModel extends CoreModel {
 
 		$result = $q->getResult();
 
-		$entities = array();
+		$entities = [];
 		foreach($result as $entry){
 			$id = $entry->getAction()->getId();
 			if(!isset($unique[$id])){
@@ -682,9 +660,9 @@ class LogModel extends CoreModel {
 		}
 		$totalRows = count($entities);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
 		}
-		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -693,21 +671,21 @@ class LogModel extends CoreModel {
 	 *
 	 * @return array
 	 */
-	public function listRecentLogs(\nteger $count, array $filter = array()){
+	public function listRecentLogs(\nteger $count, array $filter = null){
 		return $this->listLogs($filter, array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
 	}
 
 	/**
 	 * @param int   $count
-	 * @param mixed $member
+	 * @param       $member
 	 * @param array $filter
 	 * @param array $sortOrder
 	 * @param array $limit
 	 *
-	 * @return array
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|mixed
 	 */
-	public function listRecentLogsOfMember(\integer $count, $member, array $filter = [], array $sortOrder = [], $limit = []){
-		return $this->listLogsOfMember($member, [], array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
+	public function listRecentLogsOfMember(int $count, $member, array $filter = [], array $sortOrder = [], $limit = []){
+		return $this->listLogsOfMember($member, null, array('date_action' => 'desc'), array('start' => 0, 'count' => $count));
 	}
 
 	/**
@@ -717,8 +695,8 @@ class LogModel extends CoreModel {
 	 *
 	 * @return array|\BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listRecentLogsOfSite(\integer $count, $site, array $filter = []){
-		$timeStamp = time();
+	public function listRecentLogsOfSite(int $count, $site, array $filter = null){
+		$timeStamp = microtime();
 		$sModel = new SMMService\SiteManagementModel($this->kernel, $this->dbConnection, $this->orm);
 		$response = $sModel->getSite($site);
 		if($response->error->exist){
@@ -747,10 +725,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listLogs(array $filter = null, array $sortOrder = null, array $limit = null){
-		$timeStamp = time();
-		if(!is_array($sortOrder) && !is_null($sortOrder)){
-			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
-		}
+		$timeStamp = microtime();
 		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '.$this->entity['l']['alias'].', '.$this->entity['l']['alias']
@@ -790,7 +765,7 @@ class LogModel extends CoreModel {
 
 		$result = $q->getResult();
 
-		$entities = array();
+		$entities = [];
 		foreach($result as $entry){
 			$id = $entry->getId();
 			if(!isset($unique[$id])){
@@ -799,21 +774,21 @@ class LogModel extends CoreModel {
 		}
 		$totalRows = count($entities);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
 		}
-		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
 	 * @param mixed $member
-	 * @param array $filter
-	 * @param array $sortOrder
-	 * @param array $limit
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|mixed
 	 */
-	public function listLogsOfMember($member, array $filter = array(), array $sortOrder = array(), array $limit = array()){
-		$timeStamp = time();
+	public function listLogsOfMember($member, array $filter = null, array $sortOrder = null, array $limit = null){
+		$timeStamp = microtime();
 		$mModel = new MMMService\MemberManagementModel($this->kernel, $this->dbConnection, $this->orm);
 		$response = $mModel->getMember($member);
 		if($response->error->exist){
@@ -821,10 +796,8 @@ class LogModel extends CoreModel {
 		}
 		$member = $response->result->set;
 
-		$timeStamp = time();
-		if(!is_array($sortOrder) && !is_null($sortOrder)){
-			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
-		}
+		$timeStamp = microtime();
+
 		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '.$this->entity['s']['alias'].', '.$this->entity['l']['alias']
@@ -873,7 +846,7 @@ class LogModel extends CoreModel {
 
 		$result = $q->getResult();
 
-		$entities = array();
+		$entities = [];
 		foreach($result as $entry){
 			$id = $entry->getId();
 			if(!isset($unique[$id])){
@@ -882,9 +855,9 @@ class LogModel extends CoreModel {
 		}
 		$totalRows = count($entities);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
 		}
-		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -894,15 +867,13 @@ class LogModel extends CoreModel {
 	 * @param array|null $limit
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @throws \BiberLtd\Bundle\LogBundle\Services\InvalidEquationIndicatorException
 	 */
-	public function listLoggedActionsAdded(\DateTime $date, \string $eq, array$sortOrder = null, array $limit = null) {
-		$timeStamp = time();
+	public function listLoggedActionsAdded(\DateTime $date, string $eq, array $sortOrder = null, array $limit = null) {
+		$timeStamp = microtime();
 		$eqOpts = array('after', 'before', 'between', 'on');
-		if (!$date instanceof \DateTime && !is_array($date)) {
-			return $this->createException('InvalidSortOrderException', '$date must be an instance of \DateTime or an array that holds exactly two instances of \DateTime', 'E:S:001');
-		}
 		if (!in_array($eq, $eqOpts)) {
-			return $this->createException('InvalidSortOrderException', '$eq can have only one of the following values: "after", "before", "between", "on".', 'E:S:001');
+			throw new InvalidEquationIndicatorException($eq);
 		}
 		$column = $this->entity['l']['alias'].'.date_action';
 
@@ -946,7 +917,7 @@ class LogModel extends CoreModel {
 		}
 		$response = $this->listLogs($filter, $sortOrder, $limit);
 		$response->stats->execution->start = $timeStamp;
-		$response->stats->execution->end = time();
+		$response->stats->execution->end = microtime();
 		return $response;
 	}
 
@@ -970,13 +941,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listSessions(array $filter = null, array $sortOrder = null, array $limit = null){
-		$timeStamp = time();
-		if(!is_array($sortOrder) && !is_null($sortOrder)){
-			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
-		}
+		$timeStamp = microtime();
+
 		$oStr = $wStr = $gStr = $fStr = '';
-		$where_str = '';
-		$group_str = '';
 
 		$qStr = 'SELECT '.$this->entity['s']['alias']
 			.' FROM '.$this->entity['s']['name'].' '.$this->entity['s']['alias'];
@@ -1012,9 +979,9 @@ class LogModel extends CoreModel {
 
 		$totalRows = count($result);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
 		}
-		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -1032,14 +999,10 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateActions(array $collection){
-		$timeStamp = time();
-		/** Parameter must be an array */
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countUpdates = 0;
-		$updatedItems = array();
-		$localizations = array();
+		$updatedItems = [];
+		$localizations = [];
 		foreach ($collection as $data) {
 			if ($data instanceof BundleEntity\Action) {
 				$entity = $data;
@@ -1117,9 +1080,9 @@ class LogModel extends CoreModel {
 		}
 		if($countUpdates > 0){
 			$this->em->flush();
-			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, time());
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime());
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -1137,13 +1100,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateLogs(array $collection){
-		$timeStamp = time();
-		/** Parameter must be an array */
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countUpdates = 0;
-		$updatedItems = array();
+		$updatedItems = [];
 		foreach($collection as $data){
 			if($data instanceof BundleEntity\Log){
 				$entity = $data;
@@ -1201,9 +1160,9 @@ class LogModel extends CoreModel {
 		}
 		if($countUpdates > 0){
 			$this->em->flush();
-			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, time());
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime());
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime());
 	}
 
 	/**
@@ -1221,13 +1180,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateSessions(array $collection){
-		$timeStamp = time();
-		/** Parameter must be an array */
-		if (!is_array($collection)) {
-			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-		}
+		$timeStamp = microtime();
 		$countUpdates = 0;
-		$updatedItems = array();
+		$updatedItems = [];
 		foreach($collection as $data){
 			if($data instanceof BundleEntity\Session){
 				$entity = $data;
@@ -1286,8 +1241,8 @@ class LogModel extends CoreModel {
 		}
 		if($countUpdates > 0){
 			$this->em->flush();
-			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, time());
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime());
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime());
 	}
 }

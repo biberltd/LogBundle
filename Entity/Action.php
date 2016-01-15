@@ -99,7 +99,7 @@ class Action extends CoreLocalizableEntity
 	 *
 	 * @return $this
 	 */
-    public function setCode(\string $code) {
+    public function setCode(string $code) {
         if(!$this->setModified('code', $code)->isModified()) {
             return $this;
         }
@@ -115,11 +115,11 @@ class Action extends CoreLocalizableEntity
     }
 
 	/**
-	 * @param \şnteger $count_logs
+	 * @param int $count_logs
 	 *
 	 * @return $this
 	 */
-    public function setCountLogs(\şnteger $count_logs) {
+    public function setCountLogs(int $count_logs) {
         if(!$this->setModified('count_logs', $count_logs)->isModified()) {
             return $this;
         }
@@ -179,7 +179,7 @@ class Action extends CoreLocalizableEntity
 	 *
 	 * @return $this
 	 */
-    public function setType(\string $type) {
+    public function setType(string $type) {
         if(!$this->setModified('type', $type)->isModified()) {
             return $this;
         }
