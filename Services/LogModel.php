@@ -60,7 +60,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function countLogs(array $filter = null) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$wStr = '';
 
 		$qStr = 'SELECT COUNT('. $this->entity['l']['alias'].')'
@@ -76,7 +76,7 @@ class LogModel extends CoreModel {
 
 		$result = $q->getSingleScalarResult();
 
-		return new ModelResponse($result, 1, 1, null, false, 'S:D:004', 'Entries have been counted successfully.', $timeStamp, microtime());
+		return new ModelResponse($result, 1, 1, null, false, 'S:D:004', 'Entries have been counted successfully.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -94,7 +94,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteActions(array $collection) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countDeleted = 0;
 		foreach($collection as $entry){
 			if($entry instanceof BundleEntity\Action){
@@ -111,11 +111,11 @@ class LogModel extends CoreModel {
 			}
 		}
 		if($countDeleted < 0){
-			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime());
+			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime(true));
 		}
 		$this->em->flush();
 
-		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -133,7 +133,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteLogs(array $collection) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countDeleted = 0;
 		foreach($collection as $entry){
 			if($entry instanceof BundleEntity\Log){
@@ -150,11 +150,11 @@ class LogModel extends CoreModel {
 			}
 		}
 		if($countDeleted < 0){
-			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime());
+			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime(true));
 		}
 		$this->em->flush();
 
-		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -172,7 +172,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteSessions(array $collection){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countDeleted = 0;
 		foreach($collection as $entry){
 			if($entry instanceof BundleEntity\Session){
@@ -189,11 +189,11 @@ class LogModel extends CoreModel {
 			}
 		}
 		if($countDeleted < 0){
-			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime());
+			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, microtime(true));
 		}
 		$this->em->flush();
 
-		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -204,7 +204,7 @@ class LogModel extends CoreModel {
 	 */
 	public function doesActionExist($action, bool $bypass = null) {
 		$bypass = $bypass ?? false;
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$exist = false;
 
 		$response = $this->getAction($action);
@@ -222,7 +222,7 @@ class LogModel extends CoreModel {
 		if ($bypass) {
 			return $exist;
 		}
-		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -232,7 +232,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool|mixed
 	 */
 	public function doesSessionExist($session, bool $bypass = null) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$bypass = $bypass ?? false;
 		$exist = false;
 
@@ -253,7 +253,7 @@ class LogModel extends CoreModel {
 			return $exist;
 		}
 
-		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -262,9 +262,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getAction($action) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		if($action instanceof BundleEntity\Action){
-			return new ModelResponse($action, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+			return new ModelResponse($action, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 		}
 		$result = null;
 		switch($action){
@@ -276,10 +276,10 @@ class LogModel extends CoreModel {
 				break;
 		}
 		if(is_null($result)){
-			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime());
+			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime(true));
 		}
 
-		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -288,9 +288,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getLog($log) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		if($log instanceof BundleEntity\Log){
-			return new ModelResponse($log, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+			return new ModelResponse($log, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 		}
 		$result = null;
 		switch($log){
@@ -299,10 +299,10 @@ class LogModel extends CoreModel {
 				break;
 		}
 		if(is_null($result)){
-			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime());
+			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime(true));
 		}
 
-		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -311,9 +311,9 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getSession($session) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		if($session instanceof BundleEntity\Session){
-			return new ModelResponse($session, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+			return new ModelResponse($session, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 		}
 		$result = null;
 		switch($session){
@@ -325,10 +325,10 @@ class LogModel extends CoreModel {
 				break;
 		}
 		if(is_null($result)){
-			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime());
+			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, microtime(true));
 		}
 
-		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -346,7 +346,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertActionLocalizations(array $collection) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countInserts = 0;
 		$insertedItems = [];
 		foreach($collection as $data){
@@ -388,9 +388,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -399,7 +399,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertActions(array $collection)	{
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		/** Parameter must be an array */
 		$countInserts = 0;
 		$countLocalizations = 0;
@@ -465,9 +465,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -485,7 +485,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertLogs(array $collection) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countInserts = 0;
 		$insertedItems = [];
 		foreach($collection as $data){
@@ -534,9 +534,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -554,7 +554,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertSessions(array $collection) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countInserts = 0;
 		$insertedItems = [];
 		foreach($collection as $data){
@@ -597,9 +597,9 @@ class LogModel extends CoreModel {
 		}
 		if($countInserts > 0){
 			$this->em->flush();
-			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime());
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -610,7 +610,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listActions(array $filter = null, array $sortOrder = null, array $limit = null){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '.$this->entity['al']['alias'].', '.$this->entity['a']['alias']
@@ -660,9 +660,9 @@ class LogModel extends CoreModel {
 		}
 		$totalRows = count($entities);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -696,7 +696,7 @@ class LogModel extends CoreModel {
 	 * @return array|\BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listRecentLogsOfSite(int $count, $site, array $filter = null){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$sModel = new SMMService\SiteManagementModel($this->kernel, $this->dbConnection, $this->orm);
 		$response = $sModel->getSite($site);
 		if($response->error->exist){
@@ -725,7 +725,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listLogs(array $filter = null, array $sortOrder = null, array $limit = null){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '.$this->entity['l']['alias'].', '.$this->entity['l']['alias']
@@ -774,9 +774,9 @@ class LogModel extends CoreModel {
 		}
 		$totalRows = count($entities);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -788,7 +788,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|mixed
 	 */
 	public function listLogsOfMember($member, array $filter = null, array $sortOrder = null, array $limit = null){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$mModel = new MMMService\MemberManagementModel($this->kernel, $this->dbConnection, $this->orm);
 		$response = $mModel->getMember($member);
 		if($response->error->exist){
@@ -796,7 +796,7 @@ class LogModel extends CoreModel {
 		}
 		$member = $response->result->set;
 
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 
 		$oStr = $wStr = $gStr = $fStr = '';
 
@@ -855,9 +855,9 @@ class LogModel extends CoreModel {
 		}
 		$totalRows = count($entities);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -870,7 +870,7 @@ class LogModel extends CoreModel {
 	 * @throws \BiberLtd\Bundle\LogBundle\Services\InvalidEquationIndicatorException
 	 */
 	public function listLoggedActionsAdded(\DateTime $date, string $eq, array $sortOrder = null, array $limit = null) {
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$eqOpts = array('after', 'before', 'between', 'on');
 		if (!in_array($eq, $eqOpts)) {
 			throw new InvalidEquationIndicatorException($eq);
@@ -917,7 +917,7 @@ class LogModel extends CoreModel {
 		}
 		$response = $this->listLogs($filter, $sortOrder, $limit);
 		$response->stats->execution->start = $timeStamp;
-		$response->stats->execution->end = microtime();
+		$response->stats->execution->end = microtime(true);
 		return $response;
 	}
 
@@ -941,7 +941,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listSessions(array $filter = null, array $sortOrder = null, array $limit = null){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 
 		$oStr = $wStr = $gStr = $fStr = '';
 
@@ -979,9 +979,9 @@ class LogModel extends CoreModel {
 
 		$totalRows = count($result);
 		if ($totalRows < 1) {
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime());
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime());
+		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -999,7 +999,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateActions(array $collection){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countUpdates = 0;
 		$updatedItems = [];
 		$localizations = [];
@@ -1080,9 +1080,9 @@ class LogModel extends CoreModel {
 		}
 		if($countUpdates > 0){
 			$this->em->flush();
-			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime());
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -1100,7 +1100,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateLogs(array $collection){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countUpdates = 0;
 		$updatedItems = [];
 		foreach($collection as $data){
@@ -1160,9 +1160,9 @@ class LogModel extends CoreModel {
 		}
 		if($countUpdates > 0){
 			$this->em->flush();
-			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime());
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime(true));
 	}
 
 	/**
@@ -1180,7 +1180,7 @@ class LogModel extends CoreModel {
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateSessions(array $collection){
-		$timeStamp = microtime();
+		$timeStamp = microtime(true);
 		$countUpdates = 0;
 		$updatedItems = [];
 		foreach($collection as $data){
@@ -1241,8 +1241,8 @@ class LogModel extends CoreModel {
 		}
 		if($countUpdates > 0){
 			$this->em->flush();
-			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime());
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, microtime(true));
 		}
-		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime());
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, microtime(true));
 	}
 }
