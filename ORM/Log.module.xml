@@ -9,19 +9,19 @@
       <field name="type" description="Type of action: v: visitor, a:admin, u: user" type="string" size="1" default="v" required="true" uuid="9cd18e1d-d63d-4932-aee3-e3d5a84a1b5e"/>
       <field name="count_logs" description="Number of times that this action is logged." type="integer" size="10" default="0" required="true" uuid="c9bcc355-1ab4-4f36-934c-35968032b2cf"/>
       <field name="site" description="Site for which the action is defined." type="integer" size="10" uuid="42cb327c-a8ad-492a-9d8a-89d45e6ec687"/>
-      <index name="idx_n_action_date_added">
+      <index name="idxNActionDateAdded">
         <index-field name="date_added"/>
       </index>
-      <index name="idx_n_action_type">
+      <index name="idxNActionType">
         <index-field name="type"/>
       </index>
-      <index name="idx_u_action_id" description="Action id must be unique." unique="true">
+      <index name="idxUActionId" description="Action id must be unique." unique="true">
         <index-field name="id"/>
       </index>
-      <index name="idx_n_action_date_updated">
+      <index name="idxNActionDateUpdated">
         <index-field name="date_updated"/>
       </index>
-      <index name="idx_u_action_code" description="Action codes cannot be changed once created." unique="true">
+      <index name="idxUActionCode" description="Action codes cannot be changed once created." unique="true">
         <index-field name="code"/>
       </index>
       <orm-attributes>
@@ -35,7 +35,7 @@
         <attribute name="export-file-name">Action.php</attribute>
       </orm-attributes>
     </entity>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\Action" to="\BiberLtd\Bundle\SiteManagementBundle\Entity\Site" caption="idx_f_action_site" inverse-alias="site" many-owner="true" many-inverse="false" uuid="44626e77-d5b1-448f-877d-884850b3d005">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\Action" to="\BiberLtd\Bundle\SiteManagementBundle\Entity\Site" caption="idxFActionSite" inverse-alias="site" many-owner="true" many-inverse="false" uuid="44626e77-d5b1-448f-877d-884850b3d005">
       <association-field from="site" to="id"/>
       <orm-attributes>
         <attribute name="on-delete">CASCADE</attribute>
@@ -52,19 +52,19 @@
       <field name="session_id" description="Application or server session id." type="text" required="true" uuid="d32c2ce2-4a77-4018-b17b-0dcf883b2835"/>
       <field name="member" description="If logged in the member." type="integer" size="10" required="true" uuid="9d957514-ae33-40f6-8534-96b4ef759897"/>
       <field name="site" description="Site of sessiom." type="integer" size="10" uuid="cbea9a00-c9ef-47e0-9cc0-a66127994ed5"/>
-      <index name="idx_n_session_date_created">
+      <index name="idxNSessionDateCreated">
         <index-field name="date_created"/>
       </index>
-      <index name="idx_n_session_date_access">
+      <index name="idxNSessionDateAccess">
         <index-field name="date_access"/>
       </index>
-      <index name="idx_n_session_date_login">
+      <index name="idxNSessionDateLogin">
         <index-field name="date_login"/>
       </index>
-      <index name="idx_n_session_date_logout" description="idx_n_session_date_logout">
+      <index name="idxNSessionDateLogout" description="idx_n_session_date_logout">
         <index-field name="date_logout"/>
       </index>
-      <index name="idx_u_session_id" unique="true">
+      <index name="idxUSessionId" unique="true">
         <index-field name="id"/>
       </index>
       <orm-attributes>
@@ -77,13 +77,13 @@
         <attribute name="table">session</attribute>
       </orm-attributes>
     </entity>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\Session" to="\BiberLtd\Bundle\SiteManagementBundle\Entity\Site" caption="idx_f_session_site" inverse-alias="site" many-owner="true" many-inverse="false" uuid="49bd1549-7792-4911-8bf4-1019ddc681be">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\Session" to="\BiberLtd\Bundle\SiteManagementBundle\Entity\Site" caption="idxFSessionSite" inverse-alias="site" many-owner="true" many-inverse="false" uuid="49bd1549-7792-4911-8bf4-1019ddc681be">
       <association-field from="site" to="id"/>
       <orm-attributes>
         <attribute name="on-delete">CASCADE</attribute>
       </orm-attributes>
     </association>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\Session" to="\BiberLtd\Bundle\MemberManagementBundle\Entity\Member" caption="idx_f_session_member" inverse-alias="member" many-owner="true" many-inverse="false" parent-required="true" uuid="547765bc-9453-4a1f-a44f-9df100d75103">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\Session" to="\BiberLtd\Bundle\MemberManagementBundle\Entity\Member" caption="idxFSessionMember" inverse-alias="member" many-owner="true" many-inverse="false" parent-required="true" uuid="547765bc-9453-4a1f-a44f-9df100d75103">
       <association-field from="member" to="id"/>
     </association>
     <entity name="\BiberLtd\Bundle\LogBundle\Entity\ActionLocalization" local-name="ActionLocalization" namespace="\BiberLtd\Bundle\LogBundle\Entity" description="Stores translations of action table." uuid="1dc3e6e7-b57f-4a98-b0e7-93bb33529e3f">
@@ -92,16 +92,16 @@
       <field name="name" description="Localized name of action." type="string" size="155" required="true" uuid="751dc89c-ce17-473f-92b8-60fa8cfd3cb3"/>
       <field name="url_key" description="Localized url key of action." type="string" size="255" required="true" uuid="61099258-e591-4edd-9ce6-8bc1b4a5a35c"/>
       <field name="description" description="Localized description of action, if exists." type="string" size="255" uuid="d275daf7-61db-48a4-8fcd-852fb503d739"/>
-      <index name="idx_u_action_name" description="Localized action name must be unique." unique="true">
+      <index name="idxUActionName" description="Localized action name must be unique." unique="true">
         <index-field name="language"/>
         <index-field name="name"/>
       </index>
-      <index name="idx_u_action_url_key" description="Localized action url key must be unique." unique="true">
+      <index name="idxUActionUrlKey" description="Localized action url key must be unique." unique="true">
         <index-field name="action"/>
         <index-field name="language"/>
         <index-field name="url_key"/>
       </index>
-      <index name="idx_u_action_localization" unique="true">
+      <index name="idxUActionLocalization" unique="true">
         <index-field name="action"/>
         <index-field name="language"/>
       </index>
@@ -116,13 +116,13 @@
         <attribute name="table">action_localization</attribute>
       </orm-attributes>
     </entity>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\ActionLocalization" to="\BiberLtd\Bundle\LogBundle\Entity\Action" caption="idx_f_action_localization_action" owner-alias="localizations" inverse-alias="action" many-owner="true" many-inverse="false" parent-required="true" uuid="213625d5-3a75-4ba1-a4e6-57ecc9748fea">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\ActionLocalization" to="\BiberLtd\Bundle\LogBundle\Entity\Action" caption="idxFActionLocalizationAction" owner-alias="localizations" inverse-alias="action" many-owner="true" many-inverse="false" parent-required="true" uuid="213625d5-3a75-4ba1-a4e6-57ecc9748fea">
       <association-field from="action" to="id"/>
       <orm-attributes>
         <attribute name="on-delete">CASCADE</attribute>
       </orm-attributes>
     </association>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\ActionLocalization" to="\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language" caption="idx_f_action_localization_language" inverse-alias="language" many-owner="true" many-inverse="false" parent-required="true" uuid="2ea2519e-7f6f-4248-824b-fddb19170b3a">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\ActionLocalization" to="\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language" caption="idxFActionLocalizationLanguage" inverse-alias="language" many-owner="true" many-inverse="false" parent-required="true" uuid="2ea2519e-7f6f-4248-824b-fddb19170b3a">
       <association-field from="language" to="id"/>
       <orm-attributes>
         <attribute name="on-delete">CASCADE</attribute>
@@ -139,14 +139,14 @@
       <field name="session" description="Session where the action has occured." type="integer" size="20" required="true" uuid="7c14c261-eaa7-4241-8846-3ce42f1eb13e"/>
       <field name="action" description="Action that is logged." type="smallint" size="5" required="true" uuid="ccfd89f9-fe2d-45b9-9d2b-61560e0fb6a2"/>
       <field name="site" description="Site of log." type="integer" size="10" uuid="8ba72613-ec2b-4f6d-a693-4e28dd2d59a3"/>
-      <index name="idx_n_log_session_action" description="Actions that occur within a session.">
+      <index name="idxNLogSessionAction" description="Actions that occur within a session.">
         <index-field name="session"/>
         <index-field name="action"/>
       </index>
-      <index name="idx_n_log_date_action">
+      <index name="idxNLogDateAction">
         <index-field name="date_action"/>
       </index>
-      <index name="idx_n_log_site_session_action">
+      <index name="idxNLogSiteSessionAction">
         <index-field name="session"/>
         <index-field name="action"/>
         <index-field name="site"/>
@@ -161,19 +161,19 @@
         <attribute name="export-file-name">Log.php</attribute>
       </orm-attributes>
     </entity>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\Log" to="\BiberLtd\Bundle\LogBundle\Entity\Action" caption="idx_f_log_action" owner-alias="logs" inverse-alias="action" many-owner="true" many-inverse="false" parent-required="true" uuid="c93d85f6-3e43-43a6-82b2-70e1d5ea808d">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\Log" to="\BiberLtd\Bundle\LogBundle\Entity\Action" caption="idxFLogAction" owner-alias="logs" inverse-alias="action" many-owner="true" many-inverse="false" parent-required="true" uuid="c93d85f6-3e43-43a6-82b2-70e1d5ea808d">
       <association-field from="action" to="id"/>
       <orm-attributes>
         <attribute name="on-delete">CASCADE</attribute>
       </orm-attributes>
     </association>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\Log" to="\BiberLtd\Bundle\LogBundle\Entity\Session" caption="idx_f_log_session" owner-alias="logs" inverse-alias="session" many-owner="true" many-inverse="false" parent-required="true" uuid="1615de97-fa1e-4824-bc2c-47c56935556f">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\Log" to="\BiberLtd\Bundle\LogBundle\Entity\Session" caption="idxFLogSession" owner-alias="logs" inverse-alias="session" many-owner="true" many-inverse="false" parent-required="true" uuid="1615de97-fa1e-4824-bc2c-47c56935556f">
       <association-field from="session" to="id"/>
       <orm-attributes>
         <attribute name="on-delete">CASCADE</attribute>
       </orm-attributes>
     </association>
-    <association from="\BiberLtd\Bundle\LogBundle\Entity\Log" to="\BiberLtd\Bundle\SiteManagementBundle\Entity\Site" caption="idx_f_site_log" inverse-alias="site" many-owner="true" many-inverse="false" uuid="7d9b96e1-deab-44df-aafa-d0b8c7f9e47d">
+    <association from="\BiberLtd\Bundle\LogBundle\Entity\Log" to="\BiberLtd\Bundle\SiteManagementBundle\Entity\Site" caption="idxFSiteLog" inverse-alias="site" many-owner="true" many-inverse="false" uuid="7d9b96e1-deab-44df-aafa-d0b8c7f9e47d">
       <association-field from="site" to="id"/>
       <orm-attributes>
         <attribute name="on-delete">CASCADE</attribute>
@@ -187,9 +187,9 @@
   </module>
   <visual-data>
     <entity uuid="1dc3e6e7-b57f-4a98-b0e7-93bb33529e3f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="300" position-y="28" size-x="0" size-x2="123" size-y="0" size-y2="87"/>
-    <entity uuid="54071aca-26ee-4c5d-ab8e-e776bf4448a0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="300" position-y="378" size-x="0" size-x2="126" size-y="0" size-y2="115"/>
-    <entity uuid="cabe3f9a-2268-427a-ada1-ac56c2e87ba5" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="100" position-y="178" size-x="0" size-x2="188" size-y="0" size-y2="157"/>
-    <entity uuid="d63dbddf-e46d-4e45-9e94-c986c1aecf0f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="400" position-y="171" size-x="0" size-x2="124" size-y="0" size-y2="157"/>
+    <entity uuid="54071aca-26ee-4c5d-ab8e-e776bf4448a0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="248" position-y="430" size-x="0" size-x2="122" size-y="0" size-y2="115"/>
+    <entity uuid="cabe3f9a-2268-427a-ada1-ac56c2e87ba5" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="53" position-y="233" size-x="0" size-x2="113" size-y="0" size-y2="157"/>
+    <entity uuid="d63dbddf-e46d-4e45-9e94-c986c1aecf0f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="468" position-y="168" size-x="0" size-x2="119" size-y="0" size-y2="157"/>
     <module uuid="4b67ab76-3d9b-4d83-b24b-17ee1ffbfbca" bg-color="#BDB7B0" size-x="0" size-x2="644" size-y="22" size-y2="591"/>
   </visual-data>
 </skipper>

@@ -8,11 +8,11 @@
   <visual-data>
     <association uuid="0132b5a4-c206-4f06-bcf7-08bf61d249f3" color="#969696"/>
     <association uuid="02e3ef16-39f8-42b5-891d-96224803b169" color="#969696"/>
-    <association uuid="1615de97-fa1e-4824-bc2c-47c56935556f" color="#969696"/>
+    <association uuid="1615de97-fa1e-4824-bc2c-47c56935556f" caption1-position-x="62" caption1-position-y="15" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="1bc49ece-cade-4d01-b739-aa1d5fe2d1e9" color="#969696"/>
-    <association uuid="213625d5-3a75-4ba1-a4e6-57ecc9748fea" color="#969696"/>
+    <association uuid="213625d5-3a75-4ba1-a4e6-57ecc9748fea" caption1-position-x="23" caption1-position-y="-125" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="2ea2519e-7f6f-4248-824b-fddb19170b3a" color="#969696"/>
-    <association uuid="44626e77-d5b1-448f-877d-884850b3d005" color="#969696"/>
+    <association uuid="44626e77-d5b1-448f-877d-884850b3d005" caption1-position-x="-25" caption1-position-y="1" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="45c125cd-0ba3-4a9c-973e-92bbcfb91a59" color="#969696"/>
     <association uuid="49bd1549-7792-4911-8bf4-1019ddc681be" color="#969696"/>
     <association uuid="4a21a97e-810e-4e2d-a330-69d23cf801c7" color="#969696"/>
@@ -31,7 +31,7 @@
     <association uuid="b1bb0d0b-841e-42dd-9eb4-9e33e559358b" color="#969696"/>
     <association uuid="b210e152-462a-45f8-b840-75b0217b73c5" color="#969696"/>
     <association uuid="b9e4d241-2e4f-4fbf-a78c-0414234947d6" color="#969696"/>
-    <association uuid="c93d85f6-3e43-43a6-82b2-70e1d5ea808d" color="#969696"/>
+    <association uuid="c93d85f6-3e43-43a6-82b2-70e1d5ea808d" caption1-position-x="-9" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="d0a6295c-5f68-40e3-bfb4-da2ca6e40fb6" color="#969696"/>
     <association uuid="d120204e-3d7c-47ea-bfe6-c33110876e00" color="#969696"/>
     <association uuid="dcbf1caf-6474-4dfe-90be-7b58aa71c5c7" color="#969696"/>

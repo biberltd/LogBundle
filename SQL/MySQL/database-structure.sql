@@ -98,7 +98,7 @@ CREATE TABLE `session` (
   `site` int(15) unsigned DEFAULT NULL COMMENT 'Site that session belongs to.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idxUSessionId` (`id`) USING BTREE,
-  KEY `idx_f_session_member_idx` (`member`) USING BTREE,
+  KEY `idxFSessionMemberIdx` (`member`) USING BTREE,
   KEY `idxNSessionDateAccess` (`date_access`) USING BTREE,
   KEY `idxNSessionDateLogin` (`date_login`) USING BTREE,
   KEY `idxNSessionDateLogout` (`date_logout`) USING BTREE,
